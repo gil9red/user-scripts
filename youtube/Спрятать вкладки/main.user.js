@@ -9,7 +9,9 @@
 // @require      https://gist.githubusercontent.com/mjblay/18d34d861e981b7785e407c3b443b99b/raw/debc0e6d4d537ac228d1d71f44b1162979a5278c/waitForKeyElements.js
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=youtube.com
 // @grant        none
-// @homepage     https://gist.github.com/gil9red/f563e7b2fa304df1009d33d0fa361ee9
+// @homepage     https://github.com/gil9red/user-scripts
+// @updateURL    https://gil9red.github.io/user-scripts/youtube/Спрятать вкладки/main.user.js
+// @downloadURL  https://gil9red.github.io/user-scripts/youtube/Спрятать вкладки/main.user.js
 // ==/UserScript==
 
 (function() {
