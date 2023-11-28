@@ -10,8 +10,8 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=youtube.com
 // @grant        none
 // @homepage     https://github.com/gil9red/user-scripts
-// @updateURL    https://gil9red.github.io/user-scripts/youtube/Спрятать вкладки/main.user.js
-// @downloadURL  https://gil9red.github.io/user-scripts/youtube/Спрятать вкладки/main.user.js
+// @updateURL    https://gil9red.github.io/user-scripts/youtube/Спрятать вкладки.user.js
+// @downloadURL  https://gil9red.github.io/user-scripts/youtube/Спрятать вкладки.user.js
 // ==/UserScript==
 
 (function() {
