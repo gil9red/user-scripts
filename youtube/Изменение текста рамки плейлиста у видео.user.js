@@ -3,7 +3,7 @@
 // @namespace    gil9red
 // @version      0.1
 // @description  try to take over the world!
-// @author       You
+// @author       gil9red
 // @match        https://www.youtube.com/watch?*list=*
 // @require      https://gist.githubusercontent.com/mjblay/18d34d861e981b7785e407c3b443b99b/raw/debc0e6d4d537ac228d1d71f44b1162979a5278c/waitForKeyElements.js
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=youtube.com

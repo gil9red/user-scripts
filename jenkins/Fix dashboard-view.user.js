@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Jenkins. Fix dashboard-view
-// @namespace    http://tampermonkey.net/
+// @namespace    gil9red
 // @version      0.3
 // @description  try to take over the world!
-// @author       You
+// @author       gil9red
 // @match        http://127.0.0.1:8090/*
 // @match        http://localhost:8090/*
 // @icon         http://127.0.0.1:8090/static/cfcd6f85/favicon.svg
