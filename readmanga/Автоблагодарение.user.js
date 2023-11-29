@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Автоблагодарение
-// @namespace    http://tampermonkey.net/
+// @namespace    gil9red
 // @version      0.6
 // @description  Скрипт автоматически нажимает на кнопку "Сказать спасибо переводчику"
 // @author       gil9red
