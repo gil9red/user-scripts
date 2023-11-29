@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Youtube. Спрятать вкладки "Сообщество" и "Каналы"
-// @namespace    http://tampermonkey.net/
+// @namespace    gil9red
 // @version      0.4
 // @description  try to take over the world!
 // @author       gil9red
