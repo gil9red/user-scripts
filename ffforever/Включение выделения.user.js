@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         Включение выделения
 // @namespace    gil9red
-// @version      0.2
+// @version      0.3
 // @description  Отключение выключения выделения текста
 // @author       gil9red
-// @match        https://ffforever.info/index.cgi*
+// @include      /^https:\/\/(.+\.)?ffforever\.info\/index.cgi.+$/
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=ffforever.info
 // @grant        none
 // @homepage     https://github.com/gil9red/user-scripts
