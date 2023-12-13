@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Keep. Заголовок вкладки из заголовка заметок
-// @namespace    http://tampermonkey.net/
-// @version      0.1
+// @namespace    gil9red
+// @version      0.2
 // @description  try to take over the world!
 // @author       You
 // @match        https://keep.google.com/*
