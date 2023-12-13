@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Подгрузка иконок из mysite.compassplus.com
 // @namespace    gil9red
-// @version      0.6
+// @version      0.7
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/secure/ViewProfile.jspa*
@@ -31,8 +31,8 @@
   border: 5px solid #f3f3f3;
   border-radius: 50%;
   border-top: 5px solid #3498db;
-  width: 16px;
-  height: 16px;
+  width: 10px;
+  height: 10px;
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
 }
