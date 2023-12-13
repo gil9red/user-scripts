@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Отображение реального значения плюсов и минусов в комментариях
 // @namespace    gil9red
-// @version      0.3
+// @version      0.4
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://media.vkplay.ru/*
@@ -15,6 +15,29 @@
 (function() {
     'use strict';
 
+    function processComment(comment) {
+        let likesHtml = `<span style="color: green">+${comment.likes}</span>`;
+        let dislikesHtml = `<span style="color: red">-${comment.dislikes}</span>`;
+        let newText = `${comment.points} (${likesHtml}${dislikesHtml})`;
+
+        let el = document.querySelector(`#comment-${comment.id} .comments__reaction-sum`);
+        console.log(`Изменение рейтинга комментария #${comment.id}: ${el.textContent} -> ${newText}`);
+
+        el.innerHTML = newText;
+    }
+
+    function promiseProcessComment(comment, timeoutMs=100) {
+        new Promise((resolve, reject) => {
+            setTimeout(
+                () => {
+                    processComment(comment);
+                    resolve("ok");
+                },
+                timeoutMs
+            );
+        });
+    }
+
     // SOURCE: https://stackoverflow.com/a/59500532/5909792
     var originalFetch = fetch;
     fetch = (input, init) => {
@@ -25,23 +48,17 @@
                     .clone() // we can invoke `json()` only once, but clone do the trick
                     .json()
                     .then(json => {
-                        let comments = json.results || json.response;
-                        if (response.url.includes("/comments/") && comments) {
-                            for (let comment of comments) {
-                                new Promise((resolve, reject) => {
-                                    setTimeout(() => {
-                                        let likesHtml = `<span style="color: green">+${comment.likes}</span>`;
-                                        let dislikesHtml = `<span style="color: red">-${comment.dislikes}</span>`;
-                                        let newText = `${comment.points} (${likesHtml}${dislikesHtml})`;
+                        const url = response.url;
+                        if (url.includes("/comments/")) {
+                            // Лайк/дизлайк комментария
+                            if (url.includes("/react")) {
+                                promiseProcessComment(json);
 
-                                        let el = document.querySelector(`#comment-${comment.id} .comments__reaction-sum`);
-                                        console.log(`Изменение рейтинга комментария #${comment.id}: ${el.textContent} -> ${newText}`);
-
-                                        el.innerHTML = newText;
-
-                                        resolve("ok");
-                                    }, 1000);
-                                });
+                            } else { // Подгрузка комментариев
+                                let comments = json.results || json.response || [];
+                                for (let comment of comments) {
+                                    promiseProcessComment(comment);
+                                }
                             }
                         }
 
@@ -51,5 +68,4 @@
             });
         });
     };
-
 })();
