@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Keep. Заголовок вкладки из заголовка заметок
 // @namespace    gil9red
-// @version      0.2
+// @version      0.3
 // @description  try to take over the world!
 // @author       You
 // @match        https://keep.google.com/*
@@ -15,7 +15,8 @@
 (function() {
     'use strict';
 
-    const serverId = location.href.split("#LIST/")[1];
+    // Например: "#LIST/" и "#NOTE/"
+    const serverId = location.href.split(/#\w+\//)[1];
     if (!serverId) {
         return;
     }
