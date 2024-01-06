@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Rutracker. Заполнение заголовка вкладки из текста поиска
 // @namespace    gil9red
-// @version      0.1
+// @version      0.2
 // @description  try to take over the world!
 // @author       You
 // @match        https://rutracker.org/forum/tracker.php?*nm=*
@@ -22,5 +22,5 @@
     }
 
     let text = searchEl.getAttribute("value");
-    document.title = `Поиск: ${text}`;
+    document.title = `${text} - Поиск`;
 })();
