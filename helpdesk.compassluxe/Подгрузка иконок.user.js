@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Подгрузка иконок из mysite.compassplus.com
 // @namespace    gil9red
-// @version      0.7
+// @version      0.8
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/secure/ViewProfile.jspa*
@@ -11,6 +11,91 @@
 // @updateURL    https://gil9red.github.io/user-scripts/helpdesk.compassluxe/Подгрузка иконок.user.js
 // @downloadURL  https://gil9red.github.io/user-scripts/helpdesk.compassluxe/Подгрузка иконок.user.js
 // ==/UserScript==
+
+
+// SOURCE: https://dev.to/dailydevtips1/vanilla-javascript-modal-pop-up-2oki
+function appendModalDialogForImage(url_img, $parentEl) {
+    const HTML_MODAL_DIALOG = `
+<div class="modal" id="modal-one">
+  <div class="modal-bg modal-exit"></div>
+  <div class="modal-container">
+    <h1>Preview</h1>
+    <img src="${url_img}" alt="${url_img}"/>
+    <button class="modal-close modal-exit">X</button>
+  </div>
+</div>
+`
+    ;
+    GM_addStyle(`
+.modal {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal.open {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s;
+}
+.modal-bg {
+  position: absolute;
+  background: #008080a8;
+  width: 100%;
+  height: 100%;
+}
+.modal-container {
+  border-radius: 10px;
+  background: #fff;
+  position: relative;
+  padding: 10px;
+}
+.modal-close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  outline: none;
+  appearance: none;
+  color: red;
+  background: none;
+  border: 0px;
+  font-weight: bold;
+  cursor: pointer;
+}
+`
+    );
+
+    $parentEl.append(
+        $(`<button data-modal="modal-one" style="padding: 0; border: none; background: none;">🖼️</button>`)
+    );
+    $parentEl.append($(HTML_MODAL_DIALOG));
+
+    const modals = document.querySelectorAll("[data-modal]");
+
+    modals.forEach(function (trigger) {
+        trigger.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            const modal = document.getElementById(trigger.dataset.modal);
+            modal.classList.add("open");
+
+            const exits = modal.querySelectorAll(".modal-exit");
+            exits.forEach(function (exit) {
+                exit.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    modal.classList.remove("open");
+                });
+            });
+        });
+    });
+}
 
 (function() {
     'use strict';
@@ -78,6 +163,8 @@
 
                 $avatar.append($buttonSwap);
                 $loader.hide();
+
+                appendModalDialogForImage(newSrc, $avatar);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 let $result = null;
