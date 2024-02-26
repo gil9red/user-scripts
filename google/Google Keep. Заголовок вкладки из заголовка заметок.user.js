@@ -22,7 +22,7 @@
         const serverId = location.href.split(/#\w+\//)[1]; // Так понимаем, что это выбранная заметка
         if (serverId) {
             let itemEl = document.querySelector('#keep-iape');
-            if (itemEl && itemEl.innerText != "Новая заметка") {
+            if (itemEl && itemEl.innerText != "Новая заметка" && itemEl.innerText != "Новый список") {
                 document.title = itemEl.innerText;
                 return;
             }
