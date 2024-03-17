@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Keep. Заголовок вкладки из заголовка заметок
 // @namespace    gil9red
-// @version      0.6
+// @version      0.7
 // @description  try to take over the world!
 // @author       You
 // @match        https://keep.google.com/*
@@ -55,7 +55,7 @@
             }
 
             // Поиск от кнопки в заметке и к определенному элементу по порядку на том же уровне вложенности
-            const cssSelector = '[data-tooltip-text="Закрепить заметку"] ~ div:nth-child(4) > div[contenteditable="true"][role="textbox"][dir="ltr"]';
+            const cssSelector = '[data-tooltip-text*=" заметку"] ~ div:nth-child(4) > div[contenteditable="true"][role="textbox"][dir="ltr"]';
 
             itemEl = document.querySelector(cssSelector);
             if (itemEl && itemEl.innerText) {
