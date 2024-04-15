@@ -105,7 +105,7 @@ cursor: pointer;
   const HOST = "http://127.0.0.1:50000";
 
   let $avatar = $("#up-d-avatar");
-  let $items = $("ul.item-details > li");
+  let $items = $("#details-profile-fragment ul.item-details > li");
 
   let groupsText = $(".groups").text();
   let isCompassStaff = groupsText.length == 0 || groupsText.includes("compass-staff");
