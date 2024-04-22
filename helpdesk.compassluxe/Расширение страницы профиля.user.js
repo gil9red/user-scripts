@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Расширение страницы профиля
 // @namespace    gil9red
-// @version      0.10
+// @version      0.11
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/secure/ViewProfile.jspa*
@@ -156,8 +156,7 @@ animation: spin 2s linear infinite;
               $avatarImage.attr("data-new-src", newSrc);
               $avatarImage.attr("data-src-from", "original");
 
-              let $buttonSwap = $(`<button style="padding: 0; border: none; background: none;">🔄</button>`);
-              $buttonSwap.on("click", function() {
+              function switch_img() {
                   let srcFrom = $avatarImage.attr("data-src-from");
 
                   let nextSrc = srcFrom == "new" ? "original" : "new";
@@ -165,7 +164,13 @@ animation: spin 2s linear infinite;
 
                   let src = $(".avatar-image").attr(`data-${nextSrc}-src`);
                   $(".avatar-image").attr("src", src);
-              });
+              }
+
+              // Отображение другой аватарки
+              switch_img();
+
+              let $buttonSwap = $(`<button style="padding: 0; border: none; background: none;">🔄</button>`);
+              $buttonSwap.on("click", switch_img);
 
               $avatar.append($buttonSwap);
               $loader.hide();
