@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Расширение страницы профиля
 // @namespace    gil9red
-// @version      0.11
+// @version      0.12
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/secure/ViewProfile.jspa*
@@ -111,7 +111,7 @@ cursor: pointer;
   let isCompassStaff = groupsText.length == 0 || groupsText.includes("compass-staff");
   if (isCompassStaff) {
       let username = $("#up-d-username").text().trim();
-      let url = `${HOST}/api/get_person_info/${username}`;
+      let url = `${HOST}/api/get_all_person_info/${username}`;
 
       // SOURCE: https://www.w3schools.com/howto/howto_css_loader.asp
       GM_addStyle(`
@@ -145,11 +145,14 @@ animation: spin 2s linear infinite;
           url: url,
           dataType: "json",  // Тип данных загружаемых с сервера
           success: function(data) {
-              console.log("Person info:", data);
+              console.log("Person all info:", data);
+
+              let personData = data[0];
+              console.log("Used info:", personData);
 
               // Подмена аватарки (останутся еще места с оригинальной - для сравнения)
               let originalSrc = $(".avatar-image").attr("src");
-              let newSrc = data.img; // Использование ссылки на картинку
+              let newSrc = personData.img; // Использование ссылки на картинку
 
               let $avatarImage = $(".avatar-image");
               $avatarImage.attr("data-original-src", originalSrc);
@@ -180,25 +183,102 @@ animation: spin 2s linear infinite;
               $items.append($(`
                 <dl>
                   <dt>Position:</dt>
-                  <dd>${data.position}</dd>
+                  <dd>${personData.position}</dd>
                 </dl>
               `));
               $items.append($(`
                 <dl>
                   <dt>Department:</dt>
-                  <dd>${data.department}</dd>
+                  <dd>${personData.department}</dd>
                 </dl>
               `));
               $items.append($(`
                 <dl>
                   <dt>Location:</dt>
-                  <dd>${data.location}</dd>
+                  <dd>${personData.location}</dd>
                 </dl>
               `));
               $items.append($(`
                 <dl>
                   <dt>Birthday:</dt>
-                  <dd>${data.birthday}</dd>
+                  <dd>${personData.birthday}</dd>
+                </dl>
+              `));
+
+              // More info
+              let personDataKeys = Object
+                  .keys(personData)
+                  .filter(item => item != "name") // Нет смысла показывать ник в таблице
+              ;
+              let contentMoreInfo = data.map(JSON.stringify).map((item) => `<div>${item}</div>`).join("<hr>");
+              function get_tr_td(row) {
+                  function get_td(key) {
+                      let value = row[key];
+                      if (key == "img") {
+                          value = `<img src="${value}" alt="${value}"/>`;
+                      }
+                      return `<td>${value}</td>`;
+                  }
+
+                  return `<tr>${personDataKeys.map(get_td).join("")}</tr>`;
+              }
+              contentMoreInfo = `
+<table>
+<thead>
+    <tr>${personDataKeys.map((item) => `<th>${item.toUpperCase()}</th>`).join("")}<tr>
+</thead>
+<tbody>
+    ${data.map(get_tr_td).join("\n")}
+</tbody>
+</table>
+              `
+
+              // SOURCE: https://www.w3schools.com/howto/howto_css_loader.asp
+              GM_addStyle(`
+#content-more-info {
+    overflow: hidden;
+    transition: max-height 300ms;
+    max-height: 0;
+}
+
+#content-more-info.open {
+    max-height: 200px;
+    overflow: scroll;
+}
+
+#content-more-info table,
+#content-more-info td,
+#content-more-info th {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+#content-more-info table th {
+    color: white;
+    background: gray;
+}
+
+#content-more-info table th, #content-more-info table  td {
+  padding: 4px;
+}
+
+#content-more-info table img {
+    width: 48px;
+    height: 48px;
+}
+              `);
+              $(document).on("click", "#show-more-info", function() {
+                  $("#content-more-info").toggleClass('open');
+              });
+              $items.append($(`
+                <dl>
+                  <dt>More:</dt>
+                  <dd>
+                      <button id="show-more-info">Show (${data.length})</button>
+                      <div id="content-more-info">
+                          ${contentMoreInfo}
+                      </div>
+                  </dd>
                 </dl>
               `));
           },
