@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         Jira. Расширение страницы профиля
 // @namespace    gil9red
-// @version      0.12
+// @version      0.13
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/secure/ViewProfile.jspa*
 // @icon         https://helpdesk.compassluxe.com/s/5krrdz/712004/7fcd86bd1fac8f876f6db741a6132e00/_/images/fav-jsw.png
 // @grant        GM_addStyle
+// @grant        GM_xmlhttpRequest
 // @homepage     https://github.com/gil9red/user-scripts
 // @updateURL    https://gil9red.github.io/user-scripts/helpdesk.compassluxe/Расширение страницы профиля.user.js
 // @downloadURL  https://gil9red.github.io/user-scripts/helpdesk.compassluxe/Расширение страницы профиля.user.js
@@ -102,7 +103,7 @@ cursor: pointer;
 (function() {
   'use strict';
 
-  const HOST = "http://127.0.0.1:50000";
+  const HOST = "http://10.7.8.31:50000";
 
   let $avatar = $("#up-d-avatar");
   let $items = $("#details-profile-fragment ul.item-details > li");
@@ -141,88 +142,96 @@ animation: spin 2s linear infinite;
       $avatar.append($loader);
 
       console.log("Запрос дополнительной информации по " + username);
-      $.ajax({
-          url: url,
-          dataType: "json",  // Тип данных загружаемых с сервера
-          success: function(data) {
-              console.log("Person all info:", data);
 
-              let personData = data[0];
-              console.log("Used info:", personData);
+      function process_response(data) {
+          console.log("Person all info:", data);
 
-              // Подмена аватарки (останутся еще места с оригинальной - для сравнения)
-              let originalSrc = $(".avatar-image").attr("src");
-              let newSrc = personData.img; // Использование ссылки на картинку
-
-              let $avatarImage = $(".avatar-image");
-              $avatarImage.attr("data-original-src", originalSrc);
-              $avatarImage.attr("data-new-src", newSrc);
-              $avatarImage.attr("data-src-from", "original");
-
-              function switch_img() {
-                  let srcFrom = $avatarImage.attr("data-src-from");
-
-                  let nextSrc = srcFrom == "new" ? "original" : "new";
-                  $avatarImage.attr("data-src-from", nextSrc);
-
-                  let src = $(".avatar-image").attr(`data-${nextSrc}-src`);
-                  $(".avatar-image").attr("src", src);
+          function get_actual_img(personData, data) {
+              // "=0" - значит данные нужно брать из первого элемента в data
+              let m = personData.img.match(/=(\d+)/);
+              if (m == null) { // Значит, это не указание на другой набор данных
+                  return personData.img;
               }
 
-              // Отображение другой аватарки
-              switch_img();
+              let idx = parseInt(m[1]);
+              return data[idx].img;
+          }
 
-              let $buttonSwap = $(`<button style="padding: 0; border: none; background: none;">🔄</button>`);
-              $buttonSwap.on("click", switch_img);
+          let personData = data[0];
 
-              $avatar.append($buttonSwap);
-              $loader.hide();
+          // Подмена аватарки (останутся еще места с оригинальной - для сравнения)
+          let originalSrc = $(".avatar-image").attr("src");
+          let newSrc = get_actual_img(personData, data);
 
-              appendModalDialogForImage(newSrc, $avatar);
+          let $avatarImage = $(".avatar-image");
+          $avatarImage.attr("data-original-src", originalSrc);
+          $avatarImage.attr("data-new-src", newSrc);
+          $avatarImage.attr("data-src-from", "original");
 
-              $items.append($(`
+          function switch_img() {
+              let srcFrom = $avatarImage.attr("data-src-from");
+
+              let nextSrc = srcFrom == "new" ? "original" : "new";
+              $avatarImage.attr("data-src-from", nextSrc);
+
+              let src = $(".avatar-image").attr(`data-${nextSrc}-src`);
+              $(".avatar-image").attr("src", src);
+          }
+
+          // Отображение другой аватарки
+          switch_img();
+
+          let $buttonSwap = $(`<button style="padding: 0; border: none; background: none;">🔄</button>`);
+          $buttonSwap.on("click", switch_img);
+
+          $avatar.append($buttonSwap);
+          $loader.hide();
+
+          appendModalDialogForImage(newSrc, $avatar);
+
+          $items.append($(`
                 <dl>
                   <dt>Position:</dt>
                   <dd>${personData.position}</dd>
                 </dl>
               `));
-              $items.append($(`
+          $items.append($(`
                 <dl>
                   <dt>Department:</dt>
                   <dd>${personData.department}</dd>
                 </dl>
               `));
-              $items.append($(`
+          $items.append($(`
                 <dl>
                   <dt>Location:</dt>
                   <dd>${personData.location}</dd>
                 </dl>
               `));
-              $items.append($(`
+          $items.append($(`
                 <dl>
                   <dt>Birthday:</dt>
                   <dd>${personData.birthday}</dd>
                 </dl>
               `));
 
-              // More info
-              let personDataKeys = Object
-                  .keys(personData)
-                  .filter(item => item != "name") // Нет смысла показывать ник в таблице
-              ;
-              let contentMoreInfo = data.map(JSON.stringify).map((item) => `<div>${item}</div>`).join("<hr>");
-              function get_tr_td(row) {
-                  function get_td(key) {
-                      let value = row[key];
-                      if (key == "img") {
-                          value = `<img src="${value}" alt="${value}"/>`;
-                      }
-                      return `<td>${value}</td>`;
+          // More info
+          let personDataKeys = Object
+          .keys(personData)
+          .filter(item => item != "name") // Нет смысла показывать ник в таблице
+          ;
+          let contentMoreInfo = data.map(JSON.stringify).map((item) => `<div>${item}</div>`).join("<hr>");
+          function get_tr_td(row) {
+              function get_td(key) {
+                  let value = row[key];
+                  if (key == "img") {
+                      value = `<img src="${get_actual_img(row, data)}"/>`;
                   }
-
-                  return `<tr>${personDataKeys.map(get_td).join("")}</tr>`;
+                  return `<td>${value}</td>`;
               }
-              contentMoreInfo = `
+
+              return `<tr>${personDataKeys.map(get_td).join("")}</tr>`;
+          }
+          contentMoreInfo = `
 <table>
 <thead>
     <tr>${personDataKeys.map((item) => `<th>${item.toUpperCase()}</th>`).join("")}<tr>
@@ -231,10 +240,10 @@ animation: spin 2s linear infinite;
     ${data.map(get_tr_td).join("\n")}
 </tbody>
 </table>
-              `
+`
 
-              // SOURCE: https://www.w3schools.com/howto/howto_css_loader.asp
-              GM_addStyle(`
+          // SOURCE: https://www.w3schools.com/howto/howto_css_loader.asp
+          GM_addStyle(`
 #content-more-info {
     overflow: hidden;
     transition: max-height 300ms;
@@ -266,11 +275,11 @@ animation: spin 2s linear infinite;
     width: 48px;
     height: 48px;
 }
-              `);
-              $(document).on("click", "#show-more-info", function() {
-                  $("#content-more-info").toggleClass('open');
-              });
-              $items.append($(`
+`);
+          $(document).on("click", "#show-more-info", function() {
+              $("#content-more-info").toggleClass('open');
+          });
+          $items.append($(`
                 <dl>
                   <dt>More:</dt>
                   <dd>
@@ -280,18 +289,35 @@ animation: spin 2s linear infinite;
                       </div>
                   </dd>
                 </dl>
-              `));
-          },
-          error: function (xhr, ajaxOptions, thrownError) {
-              let $result = null;
-              if (xhr.status == 404) {
-                  $result = $(`<div title="Не найдено">🤷</div>`);
+          `));
+      }
+
+      function process_error(rs) {
+          let $result = null;
+          if (rs.status == 404) {
+              $result = $(`<div title="Не найдено">🤷</div>`);
+          } else {
+              $result = $(`<div title="Неожиданная ошибка ${rs.status}">⚠️</div>`);
+          }
+          $avatar.append($result);
+          $loader.hide();
+      }
+
+      GM_xmlhttpRequest({
+          method: "GET",
+          url: url,
+          onload: function (rs) {
+              // NOTE: Почему-то на 404 сюда попало
+              let firstDigit = `${rs.status}`[0];
+              if (firstDigit == "4" || firstDigit == "5") {
+                  process_error(rs);
               } else {
-                  $result = $(`<div title="Неожиданная ошибка ${xhr.status}">⚠️</div>`);
+                  let data = JSON.parse(rs.responseText);
+                  process_response(data);
               }
-              $avatar.append($result);
-              $loader.hide();
           },
-      })
+          onerror: process_error,
+          onabort: process_error,
+      });
   }
 })();
