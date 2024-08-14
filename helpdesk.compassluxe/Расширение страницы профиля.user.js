@@ -9,8 +9,8 @@
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
 // @homepage     https://github.com/gil9red/user-scripts
-// @updateURL    https://gil9red.github.io/user-scripts/helpdesk.compassluxe/Расширение страницы профиля.user.js
-// @downloadURL  https://gil9red.github.io/user-scripts/helpdesk.compassluxe/Расширение страницы профиля.user.js
+// @updateURL    https://github.com/gil9red/user-scripts/raw/main/helpdesk.compassluxe/Расширение страницы профиля.user.js
+// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/helpdesk.compassluxe/Расширение страницы профиля.user.js
 // ==/UserScript==
 
 

@@ -9,8 +9,8 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=svoya-kompaniya.ru
 // @grant        none
 // @homepage     https://github.com/gil9red/user-scripts
-// @updateURL    https://gil9red.github.io/user-scripts/svoya-kompaniya/Кнопка отображения выгодных блюд бизнес ланча.user.js
-// @downloadURL  https://gil9red.github.io/user-scripts/svoya-kompaniya/Кнопка отображения выгодных блюд бизнес ланча.user.js
+// @updateURL    https://github.com/gil9red/user-scripts/raw/main/svoya-kompaniya/Кнопка отображения выгодных блюд бизнес ланча.user.js
+// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/svoya-kompaniya/Кнопка отображения выгодных блюд бизнес ланча.user.js
 // ==/UserScript==
 
 (function() {

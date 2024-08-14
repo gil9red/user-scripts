@@ -8,8 +8,8 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=vkplay.ru
 // @grant        none
 // @homepage     https://github.com/gil9red/user-scripts
-// @updateURL    https://gil9red.github.io/user-scripts/media.vkplay/Отображение реального значения плюсов и минусов в комментариях.user.js
-// @downloadURL  https://gil9red.github.io/user-scripts/media.vkplay/Отображение реального значения плюсов и минусов в комментариях.user.js
+// @updateURL    https://github.com/gil9red/user-scripts/raw/main/media.vkplay/Отображение реального значения плюсов и минусов в комментариях.user.js
+// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/media.vkplay/Отображение реального значения плюсов и минусов в комментариях.user.js
 // ==/UserScript==
 
 (function() {

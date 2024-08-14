@@ -8,8 +8,8 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=readmanga.live
 // @grant        none
 // @homepage     https://github.com/gil9red/user-scripts
-// @updateURL    https://gil9red.github.io/user-scripts/readmanga/Автоблагодарение.user.js
-// @downloadURL  https://gil9red.github.io/user-scripts/readmanga/Автоблагодарение.user.js
+// @updateURL    https://github.com/gil9red/user-scripts/raw/main/readmanga/Автоблагодарение.user.js
+// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/readmanga/Автоблагодарение.user.js
 // ==/UserScript==
 
 (function() {

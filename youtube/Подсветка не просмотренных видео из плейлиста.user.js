@@ -8,8 +8,8 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=youtube.com
 // @grant        GM_addStyle
 // @homepage     https://github.com/gil9red/user-scripts
-// @updateURL    https://gil9red.github.io/user-scripts/youtube/Подсветка не просмотренных видео из плейлиста.user.js
-// @downloadURL  https://gil9red.github.io/user-scripts/youtube/Подсветка не просмотренных видео из плейлиста.user.js
+// @updateURL    https://github.com/gil9red/user-scripts/raw/main/youtube/Подсветка не просмотренных видео из плейлиста.user.js
+// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/youtube/Подсветка не просмотренных видео из плейлиста.user.js
 // ==/UserScript==
 
 (function() {

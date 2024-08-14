@@ -6,8 +6,8 @@
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=steampowered.com
-// @updateURL    https://gil9red.github.io/user-scripts/steam/Заполнение заголовка вкладки названием игры.user.js
-// @downloadURL  https://gil9red.github.io/user-scripts/steam/Заполнение заголовка вкладки названием игры.user.js
+// @updateURL    https://github.com/gil9red/user-scripts/raw/main/steam/Заполнение заголовка вкладки названием игры.user.js
+// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/steam/Заполнение заголовка вкладки названием игры.user.js
 // @grant        none
 // ==/UserScript==
 

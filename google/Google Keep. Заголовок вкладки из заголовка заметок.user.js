@@ -8,8 +8,8 @@
 // @icon         https://ssl.gstatic.com/keep/keep_2023q4.ico
 // @grant        none
 // @homepage     https://github.com/gil9red/user-scripts
-// @updateURL    https://gil9red.github.io/user-scripts/google/Google Keep. Заголовок вкладки из заголовка заметок.user.js
-// @downloadURL  https://gil9red.github.io/user-scripts/google/Google Keep. Заголовок вкладки из заголовка заметок.user.js
+// @updateURL    https://github.com/gil9red/user-scripts/raw/main/google/Google Keep. Заголовок вкладки из заголовка заметок.user.js
+// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/google/Google Keep. Заголовок вкладки из заголовка заметок.user.js
 // ==/UserScript==
 
 (function() {
