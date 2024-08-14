@@ -8,8 +8,8 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=ffforever.info
 // @grant        none
 // @homepage     https://github.com/gil9red/user-scripts
-// @updateURL    https://github.com/gil9red/user-scripts/raw/main/ffforever/Включение выделения.user.user.js
-// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/ffforever/Включение выделения.user.user.js
+// @updateURL    https://github.com/gil9red/user-scripts/raw/main/ffforever/Включение выделения.user.js
+// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/ffforever/Включение выделения.user.js
 // ==/UserScript==
 
 (function() {
