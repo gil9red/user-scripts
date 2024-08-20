@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Rutracker. Заполнение заголовка вкладки из текста поиска
 // @namespace    gil9red
-// @version      0.2
+// @version      0.3
 // @description  try to take over the world!
 // @author       You
 // @match        https://rutracker.org/forum/tracker.php?*nm=*
+// @match        https://rutracker.net/forum/tracker.php?*nm=*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=rutracker.org
 // @grant        none
 // @homepage     https://github.com/gil9red/user-scripts
