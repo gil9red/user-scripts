@@ -24,7 +24,7 @@
                 return;
             }
 
-            document.title = `${searchEl.value} - поиск на канале "${channelTitleEl.content}" - Rutube`;
+            document.title = `${searchEl.value} - Поиск на канале "${channelTitleEl.content}" - Rutube`;
             return;
         }
 
@@ -33,7 +33,7 @@
             return;
         }
 
-        document.title = `${searchEl.value} - поиск - Rutube`;
+        document.title = `${searchEl.value} - Поиск - Rutube`;
     }
 
     setInterval(process, 2000); // Каждые 2 секунды
