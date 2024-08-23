@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. Заполнение заголовка вкладки названием игры
 // @namespace    gil9red
-// @version      2024-08-12
+// @version      2024-08-23
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -17,7 +17,7 @@
 
     let appNameEl = document.getElementById("appHubAppName");
     if (!appNameEl) {
-        alert("Не удалось найти название игры!");
+        console.error("Не удалось найти название игры!");
         return;
     }
 
