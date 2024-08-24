@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Расширение страницы профиля
 // @namespace    gil9red
-// @version      0.13
+// @version      0.14
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/secure/ViewProfile.jspa*
@@ -194,25 +194,37 @@ animation: spin 2s linear infinite;
                   <dt>Position:</dt>
                   <dd>${personData.position}</dd>
                 </dl>
-              `));
+          `));
           $items.append($(`
                 <dl>
                   <dt>Department:</dt>
                   <dd>${personData.department}</dd>
                 </dl>
-              `));
+          `));
           $items.append($(`
                 <dl>
                   <dt>Location:</dt>
                   <dd>${personData.location}</dd>
                 </dl>
-              `));
+          `));
           $items.append($(`
                 <dl>
                   <dt>Birthday:</dt>
                   <dd>${personData.birthday}</dd>
                 </dl>
-              `));
+          `));
+          $items.append($(`
+                <dl>
+                  <dt>Birthday:</dt>
+                  <dd>${personData.birthday}</dd>
+                </dl>
+          `));
+          $items.append($(`
+                <dl>
+                  <dt>Link:</dt>
+                  <dd><a href="https://mysite.compassplus.com/Person.aspx?accountname=CP%5C${username}">mysite</a></dd>
+                </dl>
+          `));
 
           // More info
           let personDataKeys = Object
