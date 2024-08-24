@@ -215,12 +215,6 @@ animation: spin 2s linear infinite;
           `));
           $items.append($(`
                 <dl>
-                  <dt>Birthday:</dt>
-                  <dd>${personData.birthday}</dd>
-                </dl>
-          `));
-          $items.append($(`
-                <dl>
                   <dt>Link:</dt>
                   <dd><a href="https://mysite.compassplus.com/Person.aspx?accountname=CP%5C${username}">mysite</a></dd>
                 </dl>
