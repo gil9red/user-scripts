@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Rutube. Заполнение заголовка вкладки из текста поиска
 // @namespace    gil9red
-// @version      2024-08-23
+// @version      2024-08-25
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://rutube.ru/channel/*/search/?channelSearchQuery=*
+// @match        https://rutube.ru/u/*/search/?channelSearchQuery=*
 // @match        https://rutube.ru/search/?query=*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=rutube.ru
 // @updateURL    https://github.com/gil9red/user-scripts/raw/main/rutube/Заполнение заголовка вкладки из текста поиска.user.js
