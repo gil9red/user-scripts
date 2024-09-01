@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         Автоблагодарение
 // @namespace    gil9red
-// @version      0.7
+// @version      0.8
 // @description  Скрипт автоматически нажимает на кнопку "Сказать спасибо переводчику"
 // @author       gil9red
-// @include      /^https:\/\/(.+\.)?(readmanga|mintmanga|seimanga)\..+\/.+$/
+// @include      /^https:\/\/(.+\.)?(readmanga|mintmanga|seimanga|usagi)\..+\/.+$/
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=readmanga.live
 // @grant        none
 // @homepage     https://github.com/gil9red/user-scripts
