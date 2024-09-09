@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Расширение страницы профиля
 // @namespace    gil9red
-// @version      0.14
+// @version      0.15
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/secure/ViewProfile.jspa*
@@ -15,15 +15,15 @@
 
 
 // SOURCE: https://dev.to/dailydevtips1/vanilla-javascript-modal-pop-up-2oki
-function appendModalDialogForImage(url_img, $parentEl) {
+function appendModalDialogForImage($parentEl) {
   const HTML_MODAL_DIALOG = `
 <div class="modal" id="modal-one">
-<div class="modal-bg modal-exit"></div>
-<div class="modal-container">
-  <h1>Preview</h1>
-  <img src="${url_img}" alt="${url_img}"/>
-  <button class="modal-close modal-exit">X</button>
-</div>
+    <div class="modal-bg modal-exit"></div>
+    <div class="modal-container">
+        <h1>Preview</h1>
+        <img src="" alt=""/>
+        <button class="modal-close modal-exit">X</button>
+    </div>
 </div>
 `
   ;
@@ -85,6 +85,9 @@ cursor: pointer;
   modals.forEach(function (trigger) {
       trigger.addEventListener("click", function (event) {
           event.preventDefault();
+
+          let url_img = $(".avatar-image").attr("src");
+          $("#modal-one > div > img").attr("src", url_img);
 
           const modal = document.getElementById(trigger.dataset.modal);
           modal.classList.add("open");
@@ -187,7 +190,7 @@ animation: spin 2s linear infinite;
           $avatar.append($buttonSwap);
           $loader.hide();
 
-          appendModalDialogForImage(newSrc, $avatar);
+          appendModalDialogForImage($avatar);
 
           $items.append($(`
                 <dl>
