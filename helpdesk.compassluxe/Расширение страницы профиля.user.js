@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Расширение страницы профиля
 // @namespace    gil9red
-// @version      0.15
+// @version      0.16
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/secure/ViewProfile.jspa*
@@ -141,7 +141,7 @@ animation: spin 2s linear infinite;
 }
       `);
 
-      let $loader = $(`<div class="loader""></div>`);
+      let $loader = $(`<div class="loader"></div>`);
       $avatar.append($loader);
 
       console.log("Запрос дополнительной информации по " + username);
