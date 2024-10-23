@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Rutube. Отключение события клика на название видео
 // @namespace    gil9red
-// @version      2024-09-15
+// @version      2024-10-23
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://rutube.ru/video/*
@@ -15,17 +15,17 @@
     'use strict';
 
     let els = document.getElementsByClassName("video-pageinfo-container-module__videoTitleSectionHeader");
-    console.log(els);
-    if (els.length) {
-        console.log(els.length, els[0].click);
-        els[0].addEventListener(
-            "click",
-            function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                return null;
-            },
-            true
-        );
+    if (els.length == null) {
+        return;
     }
+    
+    els[0].addEventListener(
+        "click",
+        function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            return null;
+        },
+        true
+    );
 })();
