@@ -22,7 +22,7 @@
             <span
                 id="${id}"
                 class="aui-button aui-button-primary aui-style"
-                title="Coping jira key to clipboard"
+                title="Copying jira key to clipboard"
             >
                 📋<span class="info"></span>
             </span>
@@ -38,7 +38,7 @@
             jiraId,
             "text",
             () => {
-                $info.text(" - coping finished!");
+                $info.text(" - copying finished!");
                 setTimeout(() => $info.text(""), 1500);
             }
         );
