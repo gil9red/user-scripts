@@ -15,7 +15,7 @@
 (function() {
     'use strict';
 
-    const id = "coping-jira-key-to-clipboard";
+    const id = "copying-jira-key-to-clipboard";
     $(".aui-header-primary > .aui-nav").append(
         `
         <li>
