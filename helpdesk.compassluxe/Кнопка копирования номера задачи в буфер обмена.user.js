@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Кнопка копирования номера задачи в буфер обмена
 // @namespace    gil9red
-// @version      2024-10-24
+// @version      2024-10-28
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/browse/*
@@ -22,7 +22,7 @@
             <span
                 id="${id}"
                 class="aui-button aui-button-primary aui-style"
-                title="Copying jira key to clipboard"
+                title="Копирование номер джиры в буфер-обмена"
             >
                 📋<span class="info"></span>
             </span>
@@ -33,12 +33,12 @@
         let jiraId = $(`meta[name="ajs-issue-key"]`).attr("content");
 
         let $info = $(this).find(".info");
-        $info.text(" - coping...");
+        $info.text(" - копирование...");
         GM_setClipboard(
             jiraId,
             "text",
             () => {
-                $info.text(" - copying finished!");
+                $info.text(" - готово!");
                 setTimeout(() => $info.text(""), 1500);
             }
         );
