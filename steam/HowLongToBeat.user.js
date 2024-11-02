@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. HowLongToBeat
 // @namespace    gil9red
-// @version      2024-11-02
+// @version      2024-11-03
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -113,14 +113,19 @@ display: inline-block;
     `);
 
     function process_error(rs) {
-        function getErrorText(rs) {
-            if (rs.status == 404) {
-                return `<span title="Не найдено">🤷</span>`;
-            }
-            return `<span title="Неожиданная ошибка ${rs.status}">⚠️</span>`;
-        }
+        if (rs instanceof Error) {
+            errorEl.innerHTML = `<span title="Неожиданная ошибка:\n${rs}">⚠️</span>`;
 
-        errorEl.innerHTML = getErrorText(rs);
+        } else {
+            function getErrorText(rs) {
+                if (rs.status == 404) {
+                    return `<span title="Не найдено">🤷</span>`;
+                }
+                return `<span title="Неожиданная ошибка ${rs.status}">⚠️</span>`;
+            }
+
+            errorEl.innerHTML = getErrorText(rs);
+        }
 
         setVisible(loaderEl, false);
         setVisible(errorEl, true);
@@ -197,8 +202,7 @@ display: inline-block;
                         },
                         data: JSON.stringify(data),
                         onload: function (rs) {
-                            let rsData = JSON.parse(rs.responseText);
-                            console.log(rsData);
+                            console.log(rs.responseText);
 
                             function is_found_game(game1, game2) {
                                 function process_name(name) {
@@ -208,12 +212,23 @@ display: inline-block;
                                 return process_name(game1) == process_name(game2);
                             }
 
+                            let rsData = null;
+                            try {
+                                rsData = JSON.parse(rs.responseText);
+                                console.log(rsData);
+                            } catch (error) {
+                                error.message = `${error.message}\n\nresponseText:\n${rs.responseText}`;
+                                process_error(error);
+                                return;
+                            }
+
                             for (let obj of rsData.data) {
                                 if (!is_found_game(game, obj.game_name)) {
                                     continue;
                                 }
 
                                 set_howlongtobeat_info(infoEl, obj);
+
                                 setVisible(loaderEl, false);
                                 setVisible(errorEl, false);
                                 setVisible(infoEl, true);
