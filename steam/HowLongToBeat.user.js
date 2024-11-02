@@ -234,6 +234,8 @@ display: inline-block;
                                 setVisible(infoEl, true);
                                 return;
                             }
+
+                            process_error({status: 404});
                         },
                         onerror: process_error,
                         onabort: process_error,
