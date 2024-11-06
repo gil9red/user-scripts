@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Кнопка копирования имени приложенных файлов в буфер обмена
 // @namespace    gil9red
-// @version      2024-10-28
+// @version      2024-11-06
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/browse/*
@@ -32,7 +32,7 @@
     $(`.${className}`).click(function() {
         let $this = $(this);
         let text = $this.parents(".attachment-title").find("a").text();
-        let $info = $(this).find(".info");
+        let $info = $this.find(".info");
 
         $info.text(" - копирование...");
         GM_setClipboard(
