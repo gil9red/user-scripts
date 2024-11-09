@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. HowLongToBeat
 // @namespace    gil9red
-// @version      2024-11-03
+// @version      2024-11-10
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -32,27 +32,54 @@
         return;
     }
 
-    function get_howlongtobeat_hours_long(comp_main, comp_plus, comp_100) {
-        return `Main Story: ${comp_main}\nMain + Extra: ${comp_plus}\nCompletionist: ${comp_100}`;
+    function get_hours(seconds) {
+        return Math.ceil(seconds / 3600);
     }
-    function get_howlongtobeat_hours_short(comp_main, comp_plus, comp_100) {
+
+    function get_howlongtobeat_hours_long(obj) {
+        let comp_main = get_hours(obj.comp_main);
+        let comp_plus = get_hours(obj.comp_plus);
+        let comp_100 = get_hours(obj.comp_100);
+
+        let text = `Main Story: ${comp_main}\nMain + Extra: ${comp_plus}\nCompletionist: ${comp_100}`;
+
+        let addional = [];
+        if (obj.review_score) {
+            addional.push(`${obj.count_comp} Beat`);
+        }
+        if (obj.count_playing) {
+            addional.push(`${obj.count_playing} Playing`);
+        }
+        if (obj.count_backlog) {
+            addional.push(`${obj.count_backlog} Backlogs`);
+        }
+        if (obj.count_retired) {
+            addional.push(`${obj.count_retired} Retired`);
+        }
+        if (obj.review_score) {
+            addional.push(`\n${obj.review_score}% Rating`);
+        }
+
+        if (addional.length > 0) {
+            text += "\n\n" + addional.join("\n");
+        }
+
+        return text;
+    }
+    function get_howlongtobeat_hours_short(obj) {
+        let comp_main = get_hours(obj.comp_main);
+        let comp_plus = get_hours(obj.comp_plus);
+        let comp_100 = get_hours(obj.comp_100);
+
         return `HowLongToBeat: ${comp_main}/${comp_plus}/${comp_100} hours`;
     }
     function get_howlongtobeat_game_url(game_id) {
         return `${URL_BASE}/game/${game_id}`;
     }
     function set_howlongtobeat_info(infoEl, obj) {
-        function get_hours(seconds) {
-            return parseInt(seconds / 3600);
-        }
-
-        let comp_main = get_hours(obj.comp_main);
-        let comp_plus = get_hours(obj.comp_plus);
-        let comp_100 = get_hours(obj.comp_100);
-
         infoEl.setAttribute("href", get_howlongtobeat_game_url(obj.game_id));
-        infoEl.setAttribute("title", get_howlongtobeat_hours_long(comp_main, comp_plus, comp_100));
-        infoEl.textContent = get_howlongtobeat_hours_short(comp_main, comp_plus, comp_100);
+        infoEl.setAttribute("title", get_howlongtobeat_hours_long(obj));
+        infoEl.textContent = get_howlongtobeat_hours_short(obj);
     }
 
     function setVisible(el, visible) {
