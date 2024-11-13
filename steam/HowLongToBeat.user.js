@@ -139,9 +139,18 @@ display: inline-block;
 }
     `);
 
+    // SOURCE: https://stackoverflow.com/a/66481918/5909792
+    function escapeHTML(unsafe) {
+        return unsafe.replace(
+            /[\u0000-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u00FF]/g,
+            c => '&#' + ('000' + c.charCodeAt(0)).slice(-4) + ';'
+        )
+    }
+
     function process_error(rs) {
         if (rs instanceof Error) {
-            errorEl.innerHTML = `<span title="Неожиданная ошибка:\n${rs}">⚠️</span>`;
+            errorEl.innerHTML = `<span title="Неожиданная ошибка:\n${escapeHTML(rs.message)}">⚠️</span>`;
+            console.log(rs.message);
 
         } else {
             function getErrorText(rs) {
@@ -159,14 +168,21 @@ display: inline-block;
         setVisible(infoEl, false);
     }
 
-
     GM_xmlhttpRequest({
         method: "GET",
         url: `${URL_BASE}/?q=${game}`,
         onload: function (rs) {
-            let uri = /<script src="([\w/]+_app-[\w/]+\.js)"/gm.exec(rs.responseText)[1];
-            console.log(uri);
+            let m = /<script src="([\w/]+_app-[\w/]+\.js)"/gm.exec(rs.responseText);
+            if (!m) {
+                console.log(m);
+                process_error(new Error("<script> не найдено!"));
+                return;
+            }
+
+            let uri = m[1];
             if (!uri) {
+                console.log(uri);
+                process_error(new Error("uri from <script> не найдено!"));
                 return;
             }
 
@@ -174,99 +190,117 @@ display: inline-block;
                 method: "GET",
                 url: `${URL_BASE}${uri}`,
                 onload: function (rs) {
-                    let search_key = /"\/api\/search\/".concat\("([a-zA-Z0-9]+)"\)/g.exec(rs.responseText)[1];
-                    console.log(search_key);
-                    if (!search_key) {
+                    try {
+                        let url_api_search = `${URL_BASE}/api/search`;
+                        let data = {
+                            "searchType": "games",
+                            "searchTerms": game.split(" "),
+                            "searchPage": 1,
+                            "size": 20,
+                            "searchOptions": {
+                                "games": {
+                                    "userId": 0,
+                                    "platform": "PC",
+                                    "sortCategory": "popular",
+                                    "rangeCategory": "main",
+                                    "rangeTime": {
+                                        "min": null,
+                                        "max": null
+                                    },
+                                    "gameplay": {
+                                        "perspective": "",
+                                        "flow": "",
+                                        "genre": ""
+                                    },
+                                    "rangeYear": {
+                                        "min": "",
+                                        "max": ""
+                                    },
+                                    "modifier": ""
+                                },
+                                "users": {
+                                    "sortCategory": "postcount"
+                                },
+                                "lists": {
+                                    "sortCategory": "follows"
+                                },
+                                "filter": "",
+                                "sort": 0,
+                                "randomizer": 0
+                            },
+                            "useCache": false
+                        };
+
+                        let m_search_key = /"\/api\/search\/".concat\("([a-zA-Z0-9]+)"\)/g.exec(rs.responseText);
+                        if (m_search_key) {
+                            let search_key = m_search_key[1];
+                            console.log(`search_key: ${search_key}`);
+                            url_api_search = `${url_api_search}/${search_key}`;
+                            console.log(`New url_api_search: ${url_api_search}`);
+                        }
+
+                        let m_search_user_id = /,users:\{id:"([a-zA-Z0-9]+)",/g.exec(rs.responseText);
+                        if (m_search_user_id) {
+                            let search_user_id = m_search_user_id[1];
+                            console.log(`search_user_id: ${search_user_id}`);
+                            data.searchOptions.users.id = search_user_id;
+                        }
+
+                        console.log("POST", url_api_search, data);
+
+                        GM_xmlhttpRequest({
+                            method: "POST",
+                            url: url_api_search,
+                            headers: {
+                                "Accept": "application/json",
+                                "Content-Type": "application/json",
+                                "Referer": `${URL_BASE}/?q=${game}`,
+                            },
+                            data: JSON.stringify(data),
+                            onload: function (rs) {
+                                console.log(rs.responseText);
+
+                                function is_found_game(game1, game2) {
+                                    function process_name(name) {
+                                        return name.replace(/\W/g, "").toLowerCase();
+                                    }
+
+                                    return process_name(game1) == process_name(game2);
+                                }
+
+                                let rsData = null;
+                                try {
+                                    rsData = JSON.parse(rs.responseText);
+                                    console.log(rsData);
+                                } catch (error) {
+                                    error.message = `${error.message}\n\nresponseText:\n${rs.responseText}`;
+                                    process_error(error);
+                                    return;
+                                }
+
+                                for (let obj of rsData.data) {
+                                    if (!is_found_game(game, obj.game_name)) {
+                                        continue;
+                                    }
+
+                                    set_howlongtobeat_info(infoEl, obj);
+
+                                    setVisible(loaderEl, false);
+                                    setVisible(errorEl, false);
+                                    setVisible(infoEl, true);
+                                    return;
+                                }
+
+                                process_error({status: 404});
+                            },
+                            onerror: process_error,
+                            onabort: process_error,
+                        });
+                    } catch (error) {
+                        error.message = `${error.message}\n\nresponseText:\n${rs.responseText}`;
+                        process_error(error);
                         return;
                     }
-
-                    let data = {
-                        "searchType": "games",
-                        "searchTerms": game.split(" "),
-                        "searchPage": 1,
-                        "size": 20,
-                        "searchOptions": {
-                            "games": {
-                                "userId": 0,
-                                "platform": "PC",
-                                "sortCategory": "popular",
-                                "rangeCategory": "main",
-                                "rangeTime": {
-                                    "min": null,
-                                    "max": null
-                                },
-                                "gameplay": {
-                                    "perspective": "",
-                                    "flow": "",
-                                    "genre": ""
-                                },
-                                "rangeYear": {
-                                    "min": "",
-                                    "max": ""
-                                },
-                                "modifier": ""
-                            },
-                            "users": {
-                                "sortCategory": "postcount"
-                            },
-                            "lists": {
-                                "sortCategory": "follows"
-                            },
-                            "filter": "",
-                            "sort": 0,
-                            "randomizer": 0
-                        },
-                        "useCache": false
-                    };
-
-                    GM_xmlhttpRequest({
-                        method: "POST",
-                        url: `${URL_BASE}/api/search/${search_key}`,
-                        headers: {
-                            "Accept": "application/json",
-                            "Content-Type": "application/json",
-                            "Referer": `${URL_BASE}/?q=${game}`,
-                        },
-                        data: JSON.stringify(data),
-                        onload: function (rs) {
-                            console.log(rs.responseText);
-
-                            function is_found_game(game1, game2) {
-                                function process_name(name) {
-                                    return name.replace(/\W/g, "").toLowerCase();
-                                }
-
-                                return process_name(game1) == process_name(game2);
-                            }
-
-                            let rsData = null;
-                            try {
-                                rsData = JSON.parse(rs.responseText);
-                                console.log(rsData);
-                            } catch (error) {
-                                error.message = `${error.message}\n\nresponseText:\n${rs.responseText}`;
-                                process_error(error);
-                                return;
-                            }
-
-                            for (let obj of rsData.data) {
-                                if (!is_found_game(game, obj.game_name)) {
-                                    continue;
-                                }
-
-                                set_howlongtobeat_info(infoEl, obj);
-
-                                setVisible(loaderEl, false);
-                                setVisible(errorEl, false);
-                                setVisible(infoEl, true);
-                                return;
-                            }
-
-                            process_error({status: 404});
-                        },
-                        onerror: process_error,
-                        onabort: process_error,
-                    });
                 },
                 onerror: process_error,
                 onabort: process_error,
