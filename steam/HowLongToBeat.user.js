@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. HowLongToBeat
 // @namespace    gil9red
-// @version      2024-11-10
+// @version      2024-11-14
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
