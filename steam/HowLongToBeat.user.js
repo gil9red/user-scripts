@@ -23,12 +23,12 @@
     let game = appNameEl ? appNameEl.textContent : null;
     console.log("Game:", game);
 
-    game = game.replace(/[©®]/g, "");
-    console.log("Processed game:", game);
-
     if (!game) {
         return;
     }
+
+    game = game.replace(/[©®]/g, "");
+    console.log("Processed game:", game);
 
     let headerEl = document.querySelector(".apphub_HeaderStandardTop");
     if (!headerEl) {
