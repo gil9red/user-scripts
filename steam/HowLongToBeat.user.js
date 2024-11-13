@@ -20,8 +20,11 @@
     const URL_BASE = "https://howlongtobeat.com";
 
     let appNameEl = document.getElementById("appHubAppName");
-    const game = appNameEl ? appNameEl.textContent : null;
-    console.log("game", game);
+    let game = appNameEl ? appNameEl.textContent : null;
+    console.log("Game:", game);
+
+    game = game.replace(/[©®]/g, "");
+    console.log("Processed game:", game);
 
     if (!game) {
         return;
