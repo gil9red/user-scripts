@@ -237,7 +237,7 @@ display: inline-block;
                         // NOTE: fetch("/api/search/".concat("foo").concat("bar"),
                         //       fetch("/api/search/".concat("foobar"),
                         let m_concat_search_key = /"\/api\/search\/"(.+?),/g.exec(rs.responseText);
-                        if (m_search_key) {
+                        if (m_concat_search_key) {
                             let concat_search_key = m_concat_search_key[1];
 
                             // NOTE: .concat("foo").concat("bar") -> "foobar"
