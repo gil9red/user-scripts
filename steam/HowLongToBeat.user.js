@@ -234,8 +234,6 @@ display: inline-block;
                             "useCache": false
                         };
 
-                        let m_search_key = /"\/api\/search\/".concat\("([a-zA-Z0-9]+)"\)/g.exec(rs.responseText);
-
                         // NOTE: fetch("/api/search/".concat("foo").concat("bar"),
                         //       fetch("/api/search/".concat("foobar"),
                         let m_concat_search_key = /"\/api\/search\/"(.+?),/g.exec(rs.responseText);
