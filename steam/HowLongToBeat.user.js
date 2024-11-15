@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. HowLongToBeat
 // @namespace    gil9red
-// @version      2024-11-14
+// @version      2024-11-15
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -235,8 +235,20 @@ display: inline-block;
                         };
 
                         let m_search_key = /"\/api\/search\/".concat\("([a-zA-Z0-9]+)"\)/g.exec(rs.responseText);
+
+                        // NOTE: fetch("/api/search/".concat("foo").concat("bar"),
+                        //       fetch("/api/search/".concat("foobar"),
+                        let m_concat_search_key = /"\/api\/search\/"(.+?),/g.exec(rs.responseText);
                         if (m_search_key) {
-                            let search_key = m_search_key[1];
+                            let concat_search_key = m_concat_search_key[1];
+
+                            // NOTE: .concat("foo").concat("bar") -> "foobar"
+                            //       .concat("foobar") -> "foobar"
+                            let search_key = Array.from(
+                                concat_search_key.matchAll(/"(\w+)"|'(\w+)'/gm),
+                                (m) => m[1]
+                            ).join("");
+
                             console.log(`search_key: ${search_key}`);
                             url_api_search = `${url_api_search}/${search_key}`;
                             console.log(`New url_api_search: ${url_api_search}`);
