@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Добавление кнопок профилей у Assignee и Reporter
 // @namespace    gil9red
-// @version      2024-10-23
+// @version      2024-11-16
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/browse/*
