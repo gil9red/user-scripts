@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Кнопка копирования номера задачи в буфер обмена
 // @namespace    gil9red
-// @version      2024-11-06
+// @version      2024-11-16
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/browse/*
