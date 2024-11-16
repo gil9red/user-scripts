@@ -5,6 +5,7 @@
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/browse/*
+// @match        https://helpdesk.compassluxe.com/projects/*/issues/*
 // @icon         https://helpdesk.compassluxe.com/s/5krrdz/712004/7fcd86bd1fac8f876f6db741a6132e00/_/images/fav-jsw.png
 // @grant        none
 // @homepage     https://github.com/gil9red/user-scripts
