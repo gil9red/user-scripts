@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Автоблагодарение
 // @namespace    gil9red
-// @version      0.8
+// @version      0.9
 // @description  Скрипт автоматически нажимает на кнопку "Сказать спасибо переводчику"
 // @author       gil9red
 // @include      /^https:\/\/(.+\.)?(readmanga|mintmanga|seimanga|usagi)\..+\/.+$/
@@ -20,7 +20,11 @@
         return $(queryPageSelector + ' option:selected').val() == $(queryPageSelector + ' option:last').val();
     }
 
-    let sayThanksEl = $('a[href*="ajax/thanks"]')[0];
+    let sayThanksEl = $('a[onclick*="ajax/thanks"]')[0];
+    if (!sayThanksEl) {
+        sayThanksEl = $('a[href*="ajax/thanks"]')[0];
+    }
+
     if (sayThanksEl) {
         var intervalId = setInterval(() => {
             let ok = isLastPage();
