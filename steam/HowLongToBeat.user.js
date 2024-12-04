@@ -91,7 +91,7 @@
 
     headerEl.insertAdjacentHTML(
         'beforeend',
-        `<div class="howlongtobeat">
+        `<div class="howlongtobeat" style="margin-bottom: 2px;">
             <span class="loader"></span>
             <span class="error">error</span>
             <a
