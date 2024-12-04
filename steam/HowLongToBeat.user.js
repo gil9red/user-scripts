@@ -171,6 +171,7 @@ display: inline-block;
         setVisible(infoEl, false);
     }
 
+    // SOURCE: https://github.com/gil9red/SimplePyScripts/blob/40f4fe69f25b9b672855364fc42baf8ddfc9395f/html_parsing/howlongtobeat_com/search.py
     GM_xmlhttpRequest({
         method: "GET",
         url: `${URL_BASE}/?q=${game}`,
@@ -258,6 +259,13 @@ display: inline-block;
                             let search_user_id = m_search_user_id[1];
                             console.log(`search_user_id: ${search_user_id}`);
                             data.searchOptions.users.id = search_user_id;
+                        }
+
+                        let m_sub_genre = /subGenre:['"](.*?)['"]/g.exec(rs.responseText);
+                        if (m_sub_genre) {
+                            let sub_genre = m_sub_genre[1];
+                            console.log(`sub_genre: ${sub_genre}`);
+                            data.searchOptions.games.gameplay.subGenre = sub_genre;
                         }
 
                         console.log("POST", url_api_search, data);
