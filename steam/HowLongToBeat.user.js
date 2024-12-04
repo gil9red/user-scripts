@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. HowLongToBeat
 // @namespace    gil9red
-// @version      2024-12-02
+// @version      2024-12-05
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -214,7 +214,7 @@ display: inline-block;
                                         "perspective": "",
                                         "flow": "",
                                         "genre": "",
-                                        "subGenre": " "
+                                        "subGenre": "  "
                                     },
                                     "rangeYear": {
                                         "min": "",
