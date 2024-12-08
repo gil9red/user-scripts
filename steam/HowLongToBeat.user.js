@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. HowLongToBeat
 // @namespace    gil9red
-// @version      2024-12-05
+// @version      2024-12-08
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -27,7 +27,7 @@
         return;
     }
 
-    game = game.replace(/[©®]/g, "");
+    game = game.replace(/[©®–]/g, "");
     console.log("Processed game:", game);
 
     let headerEl = document.querySelector(".apphub_HeaderStandardTop");
