@@ -272,11 +272,13 @@ display: inline-block;
                             data.searchOptions.users.id = search_user_id;
                         }
 
-                        let m_sub_genre = /subGenre:['"](.*?)['"]/g.exec(rs.responseText);
-                        if (m_sub_genre) {
-                            let sub_genre = m_sub_genre[1];
-                            console.log(`sub_genre: ${sub_genre}`);
-                            data.searchOptions.games.gameplay.subGenre = sub_genre;
+                        for (let k of ["subGenre", "difficulty"]) {
+                            let m_k = new RegExp(`${k}:['"](.*?)['"]`).exec(rs.responseText);
+                            if (m_k) {
+                                let value = m_k[1];
+                                console.log(`gameplay[${k}]: ${value}`);
+                                data.searchOptions.games.gameplay[k] = value;
+                            }
                         }
 
                         console.log("POST", url_api_search, data);
