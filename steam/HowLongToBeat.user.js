@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. HowLongToBeat
 // @namespace    gil9red
-// @version      2024-12-08
+// @version      2024-12-11
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -171,7 +171,7 @@ display: inline-block;
         setVisible(infoEl, false);
     }
 
-    // SOURCE: https://github.com/gil9red/SimplePyScripts/blob/40f4fe69f25b9b672855364fc42baf8ddfc9395f/html_parsing/howlongtobeat_com/search.py
+    // SOURCE: https://github.com/gil9red/SimplePyScripts/blob/c9161fd9623f106f4f4bbccf01239576dc2224ce/html_parsing/howlongtobeat_com/search.py
     GM_xmlhttpRequest({
         method: "GET",
         url: `${URL_BASE}/?q=${game}`,
@@ -195,7 +195,6 @@ display: inline-block;
                 url: `${URL_BASE}${uri}`,
                 onload: function (rs) {
                     try {
-                        let url_api_search = `${URL_BASE}/api/search`;
                         let data = {
                             "searchType": "games",
                             "searchTerms": game.split(" "),
@@ -215,7 +214,8 @@ display: inline-block;
                                         "perspective": "",
                                         "flow": "",
                                         "genre": "",
-                                        "subGenre": "  "
+                                        "subGenre": "  ",
+                                        "difficulty": "",
                                     },
                                     "rangeYear": {
                                         "min": "",
@@ -236,9 +236,20 @@ display: inline-block;
                             "useCache": false
                         };
 
+                        let uri_api_search;
+                        let m_uri_api_search = new RegExp("/api/(search|find)/").exec(rs.responseText);
+                        if (m_uri_api_search) {
+                            uri_api_search = m_uri_api_search[0];
+                        } else {
+                            process_error(new Error("Не найден URI api search!"));
+                            return;
+                        }
+
+                        let url_api_search = `${URL_BASE}${uri_api_search}`;
+
                         // NOTE: fetch("/api/search/".concat("foo").concat("bar"),
                         //       fetch("/api/search/".concat("foobar"),
-                        let m_concat_search_key = /"\/api\/search\/"(.+?),/g.exec(rs.responseText);
+                        let m_concat_search_key = new RegExp(`${uri_api_search}(.+?),`).exec(rs.responseText);
                         if (m_concat_search_key) {
                             let concat_search_key = m_concat_search_key[1];
 
