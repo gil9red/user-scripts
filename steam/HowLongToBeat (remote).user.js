@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. HowLongToBeat (remote)
 // @namespace    gil9red
-// @version      2024-12-18
+// @version      2024-12-19
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -179,6 +179,11 @@ display: inline-block;
             try {
                 let rsData = JSON.parse(rs.responseText);
                 console.log(rsData);
+
+                if (!rsData) {
+                    process_error({status: 404});
+                    return;
+                }
 
                 set_howlongtobeat_info(infoEl, rsData);
 
