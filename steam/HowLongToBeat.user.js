@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. HowLongToBeat
 // @namespace    gil9red
-// @version      2024-12-11
+// @version      2024-12-29
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -237,7 +237,7 @@ display: inline-block;
                         };
 
                         let uri_api_search;
-                        let m_uri_api_search = new RegExp("/api/(search|find)/").exec(rs.responseText);
+                        let m_uri_api_search = new RegExp("/api/(search|find|lookup)/").exec(rs.responseText);
                         if (m_uri_api_search) {
                             uri_api_search = m_uri_api_search[0];
                         } else {
