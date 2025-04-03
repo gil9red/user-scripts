@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. Заполнение заголовка вкладки названием игры
 // @namespace    gil9red
-// @version      2024-08-23
+// @version      2025-04-03
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -21,5 +21,5 @@
         return;
     }
 
-    document.title = appNameEl.textContent;
+    document.title = `${appNameEl.textContent} - Steam`;
 })();
