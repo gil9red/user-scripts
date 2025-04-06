@@ -17,9 +17,13 @@
 (function() {
     'use strict';
 
+    const speed = 1.25;
+
     for (let video of document.getElementsByTagName("video")) {
-        video.playbackRate = 1.25;
-        video.defaultPlaybackRate = video.playbackRate;
+        if (speed > video.playbackRate) {
+            video.playbackRate = speed;
+            video.defaultPlaybackRate = speed;
+        }
         console.log(video);
     }
 })();
