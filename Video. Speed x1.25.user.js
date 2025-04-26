@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Video. Speed x1.25
 // @namespace    gil9red
-// @version      2025-04-06
+// @version      2025-04-26
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://jut.su/*
@@ -19,11 +19,16 @@
 
     const speed = 1.25;
 
-    for (let video of document.getElementsByTagName("video")) {
-        if (speed > video.playbackRate) {
-            video.playbackRate = speed;
-            video.defaultPlaybackRate = speed;
-        }
-        console.log(video);
-    }
+    setInterval(
+        () => {
+            for (let video of document.getElementsByTagName("video")) {
+                if (speed > video.playbackRate) {
+                    video.playbackRate = speed;
+                    video.defaultPlaybackRate = speed;
+                    console.log(video, 'speed', speed);
+                }
+            }
+        },
+        1000
+    );
 })();
