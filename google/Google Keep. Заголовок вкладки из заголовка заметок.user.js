@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Keep. Заголовок вкладки из заголовка заметок
 // @namespace    gil9red
-// @version      0.7
+// @version      0.8
 // @description  try to take over the world!
 // @author       You
 // @match        https://keep.google.com/*
@@ -60,6 +60,7 @@
             itemEl = document.querySelector(cssSelector);
             if (itemEl && itemEl.innerText) {
                 document.title = itemEl.innerText;
+                return;
             }
         }
 
