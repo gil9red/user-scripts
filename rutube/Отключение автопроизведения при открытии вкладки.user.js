@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Rutube. Отключение автопроизведения при открытии вкладки
 // @namespace    gil9red
-// @version      2024-10-23
+// @version      2025-95-22
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://rutube.ru/video/*
@@ -17,22 +17,25 @@
     var videoByProcessed = new Map();
 
     function process() {
-         for (let video of document.getElementsByTagName("video")) {
-             if (!videoByProcessed.has(video)) {
-                 videoByProcessed.set(video, false);
-                 continue;
-             }
+        for (let video of document.getElementsByTagName("video")) {
+            if (!videoByProcessed.has(video)) {
+                videoByProcessed.set(video, false);
+                continue;
+            }
 
-             if (videoByProcessed.get(video)) {
-                 continue;
-             }
+            if (videoByProcessed.get(video)) {
+                continue;
+            }
 
-             if (!video.paused) {
-                 video.pause();
+            if (!video.paused) {
+                video.pause();
+                if (video.volume == 0) {
+                    video.volume = 0.25;
+                }
 
-                 videoByProcessed.set(video, true);
-             }
-         }
+                videoByProcessed.set(video, true);
+            }
+        }
     }
 
     process();
