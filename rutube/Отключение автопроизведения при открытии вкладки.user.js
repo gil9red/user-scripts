@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Rutube. Отключение автопроизведения при открытии вкладки
 // @namespace    gil9red
-// @version      2025-95-22
+// @version      2025-05-22
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://rutube.ru/video/*
