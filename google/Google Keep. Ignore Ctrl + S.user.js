@@ -15,15 +15,21 @@
 (function() {
     'use strict';
 
-    // SOURCE: https://stackoverflow.com/a/11001012/5909792
-    document.addEventListener(
-        "keydown",
-        function(e) {
-            if (e.key === 's' && (navigator.userAgent.includes('Mac') ? e.metaKey : e.ctrlKey)) {
-                e.preventDefault();
-                // alert('captured');
-            }
-        },
-        false,
-    );
+    // SOURCE: https://stackoverflow.com/a/11362247/5909792
+    var isCtrl = false;
+    document.onkeyup = function(e) {
+        if (e.keyCode == 17) {
+            isCtrl = false;
+        }
+    }
+
+    document.onkeydown = function(e) {
+        if (e.keyCode == 17) {
+            isCtrl = true;
+        }
+        if (e.keyCode == 83 && isCtrl == true) {
+            console.log("Ctrl+S - captured");
+            return false;
+        }
+    }
 })();
