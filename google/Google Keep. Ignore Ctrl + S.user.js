@@ -4,7 +4,7 @@
 // @version      2025-05-22
 // @description  try to take over the world!
 // @author       gil9red
-// @match        https://keep.google.com/u/0/
+// @match        https://keep.google.com/
 // @icon         https://ssl.gstatic.com/keep/keep_2023q4.ico
 // @grant        none
 // @homepage     https://github.com/gil9red/user-scripts
