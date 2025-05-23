@@ -31,6 +31,7 @@
                 video.pause();
                 if (video.volume == 0) {
                     video.volume = 0.25;
+                    video.muted = false;
                 }
 
                 videoByProcessed.set(video, true);
