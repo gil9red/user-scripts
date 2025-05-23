@@ -29,7 +29,7 @@
 
             if (!video.paused) {
                 video.pause();
-                if (video.volume == 0) {
+                if (video.volume == 0 || video.muted) {
                     video.volume = 0.25;
                     video.muted = false;
                 }
