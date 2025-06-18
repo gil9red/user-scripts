@@ -120,7 +120,7 @@ display: inline-block;
                 let rsData = JSON.parse(rs.responseText);
                 console.log(rsData);
 
-                if (!rsData) {
+                if (!rsData || rsData.length == 0) {
                     process_error({status: 404});
                     return;
                 }
