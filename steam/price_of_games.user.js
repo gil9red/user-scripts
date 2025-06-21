@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. price_of_games
 // @namespace    gil9red
-// @version      2025-06-19
+// @version      2025-06-22
 // @description  Using API https://github.com/gil9red/price_of_games
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -110,7 +110,7 @@ display: inline-block;
 
     GM_xmlhttpRequest({
         method: "GET",
-        url: `${URL_SEARCH}/${game}`,
+        url: `${URL_SEARCH}/${encodeURIComponent(game)}`,
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json",
