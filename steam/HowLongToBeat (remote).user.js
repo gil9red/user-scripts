@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. HowLongToBeat (remote)
 // @namespace    gil9red
-// @version      2024-12-19
+// @version      2025-06-22
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -170,7 +170,7 @@ display: inline-block;
     // SOURCE: https://github.com/gil9red/SimplePyScripts/blob/7991b5a0b9c25e24ddb9b85a6f3dedb9dec1f160/howlongtobeat__web_wrapper/main.py
     GM_xmlhttpRequest({
         method: "GET",
-        url: `${URL_SEARCH}/${game}`,
+        url: `${URL_SEARCH}/${encodeURIComponent(game)}`,
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json",
