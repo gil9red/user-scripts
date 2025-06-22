@@ -170,7 +170,7 @@ display: inline-block;
     // SOURCE: https://github.com/gil9red/SimplePyScripts/blob/7991b5a0b9c25e24ddb9b85a6f3dedb9dec1f160/howlongtobeat__web_wrapper/main.py
     GM_xmlhttpRequest({
         method: "GET",
-        url: `${URL_SEARCH}/${encodeURIComponent(game)}`,
+        url: `${URL_SEARCH}/${encodeURIComponent(game.replace('/', ' '))}`,
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json",
