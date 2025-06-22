@@ -110,7 +110,7 @@ display: inline-block;
 
     GM_xmlhttpRequest({
         method: "GET",
-        url: `${URL_SEARCH}/${encodeURIComponent(game)}`,
+        url: `${URL_SEARCH}/${encodeURIComponent(game.replace('/', ' '))}`,
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json",
