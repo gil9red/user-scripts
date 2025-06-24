@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Кнопка копирования номера задачи в буфер обмена
 // @namespace    gil9red
-// @version      2024-11-16
+// @version      2025-06-24
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/browse/*
@@ -15,6 +15,38 @@
 
 (function() {
     'use strict';
+
+    {
+        const id_copying_jira_key_and_title_to_clipboard = "copying-jira-key-and-title-to-clipboard";
+        $(".aui-header-primary > .aui-nav").append(
+            `
+        <li>
+            <span
+                id="${id_copying_jira_key_and_title_to_clipboard}"
+                class="aui-button aui-button-primary aui-style"
+                title="Копирование номера джиры и название в буфер-обмена"
+            >
+                📋📃<span class="info"></span>
+            </span>
+        </li>
+        `
+        );
+        $(`#${id_copying_jira_key_and_title_to_clipboard}`).click(function() {
+            let jiraId = $(`meta[name="ajs-issue-key"]`).attr("content");
+            let jiraTitle = $("#summary-val").text();
+
+            let $info = $(this).find(".info");
+            $info.text(" - копирование...");
+            GM_setClipboard(
+                `[${jiraId}] ${jiraTitle}`,
+                "text",
+                () => {
+                    $info.text(" - готово!");
+                    setTimeout(() => $info.text(""), 1500);
+                }
+            );
+        });
+    }
 
     const id = "copying-jira-key-to-clipboard";
     $(".aui-header-primary > .aui-nav").append(
