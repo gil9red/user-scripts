@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Кнопка копирования номера задачи в буфер обмена
 // @namespace    gil9red
-// @version      2025-06-24
+// @version      2025-07-01
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/browse/*
@@ -38,7 +38,7 @@
             let $info = $(this).find(".info");
             $info.text(" - копирование...");
             GM_setClipboard(
-                `[${jiraId}] ${jiraTitle}`,
+                `${jiraId}: ${jiraTitle}`,
                 "text",
                 () => {
                     $info.text(" - готово!");
