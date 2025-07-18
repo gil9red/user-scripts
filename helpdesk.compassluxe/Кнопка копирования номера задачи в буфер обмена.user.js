@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Кнопка копирования номера задачи в буфер обмена
 // @namespace    gil9red
-// @version      2025-07-01
+// @version      2025-07-18
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/browse/*
@@ -26,12 +26,42 @@
                 class="aui-button aui-button-primary aui-style"
                 title="Копирование номера джиры и название в буфер-обмена"
             >
-                📋📃<span class="info"></span>
+                📋[📃]<span class="info"></span>
             </span>
         </li>
         `
         );
         $(`#${id_copying_jira_key_and_title_to_clipboard}`).click(function() {
+            let jiraId = $(`meta[name="ajs-issue-key"]`).attr("content");
+            let jiraTitle = $("#summary-val").text();
+
+            let $info = $(this).find(".info");
+            $info.text(" - копирование...");
+            GM_setClipboard(
+                `[${jiraId}] ${jiraTitle}`,
+                "text",
+                () => {
+                    $info.text(" - готово!");
+                    setTimeout(() => $info.text(""), 1500);
+                }
+            );
+        });
+
+        const id_copying_jira_key_and_title_to_clipboard2 = "copying-jira-key-and-title-to-clipboard2";
+        $(".aui-header-primary > .aui-nav").append(
+            `
+        <li>
+            <span
+                id="${id_copying_jira_key_and_title_to_clipboard2}"
+                class="aui-button aui-button-primary aui-style"
+                title="Копирование номера джиры и название в буфер-обмена"
+            >
+                📋:📃<span class="info"></span>
+            </span>
+        </li>
+        `
+        );
+        $(`#${id_copying_jira_key_and_title_to_clipboard2}`).click(function() {
             let jiraId = $(`meta[name="ajs-issue-key"]`).attr("content");
             let jiraTitle = $("#summary-val").text();
 
