@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Кнопка копирования номера задачи в буфер обмена
 // @namespace    gil9red
-// @version      2025-07-21
+// @version      2025-07-21-v2
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/browse/*
@@ -16,9 +16,14 @@
 (function() {
     'use strict';
 
-    const jiraId = $(`meta[name="ajs-issue-key"]`).attr("content") || $("[id=key-val][data-issue-key]").attr("data-issue-key");
-    const jiraTitle = $("#summary-val").text();
-    
+    function getJiraId() {
+        return $(`meta[name="ajs-issue-key"]`).attr("content") || $("[id=key-val][data-issue-key]").attr("data-issue-key");
+    }
+
+    function getJiraTitle() {
+        return $("#summary-val").text();
+    }
+
     {
         const id_copying_jira_key_and_title_to_clipboard = "copying-jira-key-and-title-to-clipboard";
         $(".aui-header-primary > .aui-nav").append(
@@ -38,7 +43,7 @@
             let $info = $(this).find(".info");
             $info.text(" - копирование...");
             GM_setClipboard(
-                `[${jiraId}] ${jiraTitle}`,
+                `[${getJiraId()}] ${getJiraTitle()}`,
                 "text",
                 () => {
                     $info.text(" - готово!");
@@ -65,7 +70,7 @@
             let $info = $(this).find(".info");
             $info.text(" - копирование...");
             GM_setClipboard(
-                `${jiraId}: ${jiraTitle}`,
+                `${getJiraId()}: ${getJiraTitle()}`,
                 "text",
                 () => {
                     $info.text(" - готово!");
@@ -93,7 +98,7 @@
         let $info = $(this).find(".info");
         $info.text(" - копирование...");
         GM_setClipboard(
-            jiraId,
+            getJiraId(),
             "text",
             () => {
                 $info.text(" - готово!");
