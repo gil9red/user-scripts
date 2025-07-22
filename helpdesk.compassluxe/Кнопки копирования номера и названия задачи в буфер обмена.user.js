@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Jira. Кнопка копирования номера задачи в буфер обмена
+// @name         Jira. Кнопки копирования номера и названия задачи в буфер обмена
 // @namespace    gil9red
-// @version      2025-07-21-v2
+// @version      2025-07-22
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/browse/*
@@ -24,6 +24,37 @@
         return $("#summary-val").text();
     }
 
+    // Копирование названия джиры
+    {
+        const id_copying_jira_title_to_clipboard = "copying-jira-title-to-clipboard";
+        $(".aui-header-primary > .aui-nav").append(
+            `
+        <li>
+            <span
+                id="${id_copying_jira_title_to_clipboard}"
+                class="aui-button aui-button-primary aui-style"
+                title="Копирование названия джиры в буфер-обмена"
+            >
+               📃<span class="info"></span>
+            </span>
+        </li>
+        `
+        );
+        $(`#${id_copying_jira_title_to_clipboard}`).click(function() {
+            let $info = $(this).find(".info");
+            $info.text(" - копирование...");
+            GM_setClipboard(
+                getJiraTitle(),
+                "text",
+                () => {
+                    $info.text(" - готово!");
+                    setTimeout(() => $info.text(""), 1500);
+                }
+            );
+        });
+    }
+    
+    // Копирование номера джиры с названием
     {
         const id_copying_jira_key_and_title_to_clipboard = "copying-jira-key-and-title-to-clipboard";
         $(".aui-header-primary > .aui-nav").append(
@@ -79,7 +110,8 @@
             );
         });
     }
-
+    
+    // Копирование номера джиры
     const id = "copying-jira-key-to-clipboard";
     $(".aui-header-primary > .aui-nav").append(
         `
