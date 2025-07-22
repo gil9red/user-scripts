@@ -9,8 +9,8 @@
 // @icon         https://helpdesk.compassluxe.com/s/5krrdz/712004/7fcd86bd1fac8f876f6db741a6132e00/_/images/fav-jsw.png
 // @grant        GM_setClipboard
 // @homepage     https://github.com/gil9red/user-scripts
-// @updateURL    https://github.com/gil9red/user-scripts/raw/main/helpdesk.compassluxe/Кнопка копирования номера задачи в буфер обмена.user.js
-// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/helpdesk.compassluxe/Кнопка копирования номера задачи в буфер обмена.user.js
+// @updateURL    https://github.com/gil9red/user-scripts/raw/main/helpdesk.compassluxe/Кнопки%20копирования%20номера%20и%20названия%20задачи%20в%20буфер%20обмена.user.js
+// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/helpdesk.compassluxe/Кнопки%20копирования%20номера%20и%20названия%20задачи%20в%20буфер%20обмена.user.js
 // ==/UserScript==
 
 (function() {
