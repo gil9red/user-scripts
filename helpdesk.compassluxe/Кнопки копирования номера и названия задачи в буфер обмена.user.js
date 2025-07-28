@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Кнопки копирования номера и названия задачи в буфер обмена
 // @namespace    gil9red
-// @version      2025-07-22
+// @version      2025-07-28
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/browse/*
@@ -65,7 +65,7 @@
                 class="aui-button aui-button-primary aui-style"
                 title="Копирование номера джиры и название в буфер-обмена"
             >
-                📋[📃]<span class="info"></span>
+                [📋] 📃<span class="info"></span>
             </span>
         </li>
         `
@@ -92,7 +92,7 @@
                 class="aui-button aui-button-primary aui-style"
                 title="Копирование номера джиры и название в буфер-обмена"
             >
-                📋:📃<span class="info"></span>
+                📋: 📃<span class="info"></span>
             </span>
         </li>
         `
