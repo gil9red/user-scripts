@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gamestatus. Название игры на вкладке
 // @namespace    gil9red
-// @version      2025-04-28
+// @version      2025-08-13
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://gamestatus.info/*
@@ -17,14 +17,17 @@
 
     setInterval(
         function() {
-            let titleEl = document.querySelector("meta[property='og:site_name'][content]");
-            if (!titleEl) {
-                console.error("Не удалось найти название игры!");
-                return;
+            let title;
+            try {
+                title = document.querySelector(".title-navigator.title-navigator-min > h1").childNodes[1].textContent;
+            } catch {
+                let titleEl = document.querySelector("meta[property='og:site_name'][content]");
+                title = titleEl.getAttribute("content")
+                    .replace("Gamestatus - Crack ", "")
+                    .replace("Gamestatus - Взлом ", "")
+                    .trim()
+                ;
             }
-
-            let title = titleEl.getAttribute("content");
-            title = title.replace("Gamestatus - Crack ", "").trim();
 
             document.title = `${title} - Gamestatus`;
         },
