@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         Video. Speed x1.25
 // @namespace    gil9red
-// @version      2025-04-26
+// @version      2025-08-17
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://jut.su/*
 // @match        https://www.youtube.com/shorts/*
 // @match        https://www.youtube.com/watch*
+// @match        https://www.youtube.com/live/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=jut.su
 // @grant        none
 // @homepage     https://github.com/gil9red/user-scripts
@@ -32,3 +33,4 @@
         1000
     );
 })();
+
