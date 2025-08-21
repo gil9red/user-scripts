@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. price_of_games
 // @namespace    gil9red
-// @version      2025-06-22
+// @version      2025-08-21
 // @description  Using API https://github.com/gil9red/price_of_games
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -143,10 +143,10 @@ display: inline-block;
                                 }
                             }
                             return `#${game.id}. ${game.name}`
-                                   + `\n  Цена: ${game.price} ₽`
-                                   + `\n  Платформа: ${game.platform}`
-                                   + `\n  ${kindTitle}: ${game.append_date}`
-                                   + `\n  Жанры: ${game.genres.join(", ")}`
+                                   + `\nЦена: ${game.price} ₽`
+                                   + `\nПлатформа: ${game.platform}`
+                                   + `\n${kindTitle}: ${game.append_date}`
+                                   + `\nЖанры: ${game.genres.join(", ")}`
                             ;
                         }
                     )
@@ -167,3 +167,4 @@ display: inline-block;
         onabort: process_error,
     });
 })();
+
