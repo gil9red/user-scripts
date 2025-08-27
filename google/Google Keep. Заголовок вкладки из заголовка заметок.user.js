@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Keep. Заголовок вкладки из заголовка заметок
 // @namespace    gil9red
-// @version      2025-08-23
+// @version      2025-08-27
 // @description  try to take over the world!
 // @author       You
 // @match        https://keep.google.com/*
@@ -17,6 +17,9 @@
 
     let oldDocumentTitle = document.title;
 
+    // NOTE: Тут данные извлекаются из <script>
+    document._gil9red_chunkJson = null;
+
     function process() {
         // Например: "#LIST/" и "#NOTE/"
         const serverId = location.href.split(/#\w+\//)[1]; // Так понимаем, что это выбранная заметка
@@ -27,35 +30,36 @@
                 return;
             }
 
-            // Работает для закрепленных
-            document._gil9red_chunkJson = null;
-            let scripts = document.querySelectorAll("script");
-            for (let i = 0; i < scripts.length; i++) {
-                let scriptText = scripts[i].innerText;
-                let m = scriptText.match(/loadChunk\((JSON\.parse\(['"].+?['"]\))/);
-                if (m) {
-                    // Символы экранированы в ASCII
-                    // NOTE: Вместо eval
-                    GM_addElement(
-                        'script',
-                        {
-                            textContent: `document._gil9red_chunkJson = ${m[1]};`,
-                        }
-                    );
-                    break;
+            if (document._gil9red_chunkJson === null) {
+                // Работает для закрепленных
+                let scripts = document.querySelectorAll("script");
+                for (let i = 0; i < scripts.length; i++) {
+                    let scriptText = scripts[i].innerText;
+                    let m = scriptText.match(/loadChunk\((JSON\.parse\(['"].+?['"]\))/);
+                    if (m) {
+                        // Символы экранированы в ASCII
+                        // NOTE: Вместо eval
+                        GM_addElement(
+                            'script',
+                            {
+                                textContent: `document._gil9red_chunkJson = ${m[1]};`,
+                            }
+                        ).remove();
+                        break;
+                    }
                 }
-            }
 
-            if (document._gil9red_chunkJson == null) {
-                alert("Не удалось найти JSON из loadChunk!");
-                clearInterval(timerId);
-                return;
-            }
-
-            for (let data of document._gil9red_chunkJson) {
-                if (data.serverId == serverId) {
-                    document.title = data.title;
+                if (document._gil9red_chunkJson == null) {
+                    alert("Не удалось найти JSON из loadChunk!");
+                    clearInterval(timerId);
                     return;
+                }
+
+                for (let data of document._gil9red_chunkJson) {
+                    if (data.serverId == serverId) {
+                        document.title = data.title;
+                        return;
+                    }
                 }
             }
 
