@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Rutube. Отключение автопроизведения при открытии вкладки
 // @namespace    gil9red
-// @version      2025-05-23
+// @version      2025-08-30
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://rutube.ru/video/*
@@ -20,7 +20,6 @@
         for (let video of document.getElementsByTagName("video")) {
             if (!videoByProcessed.has(video)) {
                 videoByProcessed.set(video, false);
-                continue;
             }
 
             if (videoByProcessed.get(video)) {
@@ -43,6 +42,6 @@
 
     var intervalId = setInterval(process, 100);
 
-    // Думаю, 5 секунд хватит, чтобы остановить все видео
-    setTimeout(() => clearInterval(intervalId), 5000);
+    // Думаю, 2 секунд хватит, чтобы остановить все видео
+    setTimeout(() => clearInterval(intervalId), 2000);
 })();
