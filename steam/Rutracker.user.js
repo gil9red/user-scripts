@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. Rutracker
 // @namespace    gil9red
-// @version      2025-01-11
+// @version      2025-09-11
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -34,4 +34,5 @@
         </a>`
     );
 })();
+
 
