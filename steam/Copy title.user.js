@@ -35,7 +35,7 @@
         `
         <span
             id="${id}"
-            title="Copying title to clipboard"
+            title='Copying "${game}" to clipboard'
             style="cursor: pointer; font-size: 16px"
         >
             📋<span class="info"></span>
