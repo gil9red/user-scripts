@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. price_of_games
 // @namespace    gil9red
-// @version      2025-09-11
+// @version      2025-09-14
 // @description  Using API https://github.com/gil9red/price_of_games
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -41,7 +41,7 @@
         `<span class="price_of_games" style="font-size: large;">
             <span class="loader"></span>
             <span class="error"></span>
-            <span class="info">💰</span>
+            <span class="info" style="cursor: help">💰</span>
         </span>`
     );
 
@@ -169,5 +169,6 @@ display: inline-block;
         onabort: process_error,
     });
 })();
+
 
 
