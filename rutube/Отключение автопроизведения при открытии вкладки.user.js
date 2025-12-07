@@ -17,6 +17,8 @@
     var videoByProcessed = new Map();
 
     function process() {
+        console.log("Videos", document.getElementsByTagName("video"));
+        
         for (let video of document.getElementsByTagName("video")) {
             if (!videoByProcessed.has(video)) {
                 videoByProcessed.set(video, false);
@@ -45,3 +47,4 @@
     // Думаю, 5 секунд хватит, чтобы обработать видео
     setTimeout(() => clearInterval(intervalId), 5000);
 })();
+
