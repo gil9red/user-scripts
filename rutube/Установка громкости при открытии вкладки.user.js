@@ -14,20 +14,10 @@
 (function() {
     'use strict';
 
-    var videoByProcessed = new Map();
-
     function process() {
+        console.log("Videos", document.getElementsByTagName("video"));
         for (let video of document.getElementsByTagName("video")) {
-            if (!videoByProcessed.has(video)) {
-                videoByProcessed.set(video, false);
-            }
-
-            if (videoByProcessed.get(video)) {
-                continue;
-            }
-            
             video.volume = 0.15;
-            videoByProcessed.set(video, true);
         }
     }
 
@@ -35,6 +25,6 @@
 
     var intervalId = setInterval(process, 100);
 
-    // Думаю, 2 секунд хватит, чтобы обработать видео
-    setTimeout(() => clearInterval(intervalId), 2000);
+    // Думаю, 5 секунд хватит, чтобы обработать видео
+    setTimeout(() => clearInterval(intervalId), 5000);
 })();
