@@ -42,7 +42,6 @@
 
     var intervalId = setInterval(process, 100);
 
-    // Думаю, 2 секунд хватит, чтобы остановить все видео
-    setTimeout(() => clearInterval(intervalId), 2000);
+    // Думаю, 5 секунд хватит, чтобы обработать видео
+    setTimeout(() => clearInterval(intervalId), 5000);
 })();
-
