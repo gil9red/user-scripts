@@ -16,6 +16,7 @@
 
     function process() {
         console.log("Videos", document.getElementsByTagName("video"));
+        
         for (let video of document.getElementsByTagName("video")) {
             video.volume = 0.15;
         }
