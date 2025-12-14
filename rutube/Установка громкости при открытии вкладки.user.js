@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Rutube. Установка громкости при открытии вкладки
 // @namespace    gil9red
-// @version      2025-12-08
+// @version      2025-12-14
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://rutube.ru/video/*
@@ -14,18 +14,28 @@
 (function() {
     'use strict';
 
+    var videoByProcessed = new Map();
+
     function process() {
-        console.log("Videos", document.getElementsByTagName("video"));
-        
         for (let video of document.getElementsByTagName("video")) {
-            video.volume = 0.15;
+            if (!videoByProcessed.has(video)) {
+                videoByProcessed.set(video, false);
+            }
+
+            if (videoByProcessed.get(video)) {
+                continue;
+            }
+
+            if (video.volume == 1) { // Почему-то некоторые видео имеют максимальную громность
+                console.log("video", video);
+
+                video.volume = 0.15;
+                videoByProcessed.set(video, true);
+            }
         }
     }
 
     process();
 
-    var intervalId = setInterval(process, 100);
-
-    // Думаю, 5 секунд хватит, чтобы обработать видео
-    setTimeout(() => clearInterval(intervalId), 5000);
+    setInterval(process, 500);
 })();
