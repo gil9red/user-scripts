@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. HowLongToBeat (remote)
 // @namespace    gil9red
-// @version      2025-06-22
+// @version      2025-12-17
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -16,11 +16,17 @@
 (function() {
     'use strict';
 
+    const PREFIX_LOG = "[HowLongToBeat] ";
+
+    // SOURCE: https://github.com/gil9red/SimplePyScripts/blob/7991b5a0b9c25e24ddb9b85a6f3dedb9dec1f160/howlongtobeat__web_wrapper/main.py
     const URL_SEARCH = "http://127.0.0.1:10017/search-game";
 
     let appNameEl = document.getElementById("appHubAppName");
     let game = appNameEl ? appNameEl.textContent : null;
-    console.log("Game:", game);
+    console.log(PREFIX_LOG + "Game:", game);
+
+    const appId = window.location.href.match(/app\/(\d+)/)[1];
+    console.log(PREFIX_LOG + "AppId:", appId);
 
     if (!game) {
         return;
@@ -149,7 +155,7 @@ display: inline-block;
     function process_error(rs) {
         if (rs instanceof Error) {
             errorEl.innerHTML = `<span title="Неожиданная ошибка:\n${escapeHTML(rs.message)}">⚠️</span>`;
-            console.log(rs.message);
+            console.log(PREFIX_LOG + "rs.message:", rs.message);
 
         } else {
             function getErrorText(rs) {
@@ -167,7 +173,6 @@ display: inline-block;
         setVisible(infoEl, false);
     }
 
-    // SOURCE: https://github.com/gil9red/SimplePyScripts/blob/7991b5a0b9c25e24ddb9b85a6f3dedb9dec1f160/howlongtobeat__web_wrapper/main.py
     GM_xmlhttpRequest({
         method: "GET",
         url: `${URL_SEARCH}/${encodeURIComponent(game.replace('/', ' '))}`,
@@ -178,10 +183,66 @@ display: inline-block;
         onload: function (rs) {
             try {
                 let rsData = JSON.parse(rs.responseText);
-                console.log(rsData);
+                console.log(PREFIX_LOG + "search rsData:", rsData);
 
                 if (!rsData) {
-                    process_error({status: 404});
+                    GM_xmlhttpRequest({
+                        method: "GET",
+                        url: `/api/appdetails?appids=${appId}&l=english`,
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json",
+                        },
+                        onload: function (rs) {
+                            try {
+                                let rsData = JSON.parse(rs.responseText);
+                                console.log(PREFIX_LOG + "appdetails rsData:", rsData);
+
+                                let gameEn = rsData[appId].data.name;
+                                console.log(PREFIX_LOG + "appdetails rsData.data.name (en):", gameEn);
+
+                                GM_xmlhttpRequest({
+                                    method: "GET",
+                                    url: `${URL_SEARCH}/${encodeURIComponent(gameEn.replace('/', ' '))}`,
+                                    headers: {
+                                        "Accept": "application/json",
+                                        "Content-Type": "application/json",
+                                    },
+                                    onload: function (rs) {
+                                        try {
+                                            let rsData = JSON.parse(rs.responseText);
+                                            console.log(PREFIX_LOG + "search (en) rsData:", rsData);
+
+                                            if (!rsData) {
+                                                process_error({status: 404});
+                                                return;
+                                            }
+
+                                            set_howlongtobeat_info(infoEl, rsData);
+
+                                            setVisible(loaderEl, false);
+                                            setVisible(errorEl, false);
+                                            setVisible(infoEl, true);
+
+                                        } catch (error) {
+                                            error.message = `${error.message}\n\nresponseText:\n${rs.responseText}`;
+                                            process_error(error);
+                                            return;
+                                        }
+                                    },
+                                    onerror: process_error,
+                                    onabort: process_error,
+                                });
+
+                            } catch (error) {
+                                error.message = `${error.message}\n\nresponseText:\n${rs.responseText}`;
+                                process_error(error);
+                                return;
+                            }
+                        },
+                        onerror: process_error,
+                        onabort: process_error,
+                    });
                     return;
                 }
 
