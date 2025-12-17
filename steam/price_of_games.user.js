@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. price_of_games
 // @namespace    gil9red
-// @version      2025-09-14
+// @version      2025-12-17
 // @description  Using API https://github.com/gil9red/price_of_games
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -16,12 +16,17 @@
 (function() {
     'use strict';
 
+    const PREFIX_LOG = "[price_of_games] ";
+
     // https://github.com/gil9red/price_of_games/blob/ea72f97245918d41d148d39b2204faaf63641ada/app_web/main.py#L434
     const URL_SEARCH = "http://127.0.0.1:5500/api/search";
 
-    let appNameEl = document.getElementById("appHubAppName");
-    let game = appNameEl ? appNameEl.textContent : null;
-    console.log("Game:", game);
+    const appNameEl = document.getElementById("appHubAppName");
+    const game = appNameEl ? appNameEl.textContent : null;
+    console.log(PREFIX_LOG + "Game:", game);
+
+    const appId = window.location.href.match(/app\/(\d+)/)[1];
+    console.log(PREFIX_LOG + "AppId:", appId);
 
     if (!game) {
         return;
@@ -90,7 +95,7 @@ display: inline-block;
     function process_error(rs) {
         if (rs instanceof Error) {
             errorEl.innerHTML = `<span title="Неожиданная ошибка:\n${escapeHTML(rs.message)}">⚠️</span>`;
-            console.log(rs.message);
+            console.log(PREFIX_LOG + "rs.message:", rs.message);
 
         } else {
             function getErrorText(rs) {
@@ -108,67 +113,117 @@ display: inline-block;
         setVisible(infoEl, false);
     }
 
-    GM_xmlhttpRequest({
-        method: "GET",
-        url: `${URL_SEARCH}/${encodeURIComponent(game.replace('/', ' '))}`,
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-        },
-        onload: function (rs) {
+    function process_game(rsData) {
+        document.title = `💰 ${document.title}`;
+
+        infoEl.title = rsData
+            .map(
+            (game) => {
+                let kindTitle;
+                switch (game.kind) {
+                    case "FINISHED_GAME": {
+                        kindTitle = "Пройдено";
+                        break;
+                    }
+                    case "FINISHED_WATCHED": {
+                        kindTitle = "Просмотрено";
+                        break;
+                    }
+                    default: {
+                        kindTitle = game.kind;
+                    }
+                }
+                return `#${game.id}. ${game.name}`
+                    + `\nЦена: ${game.price} ₽`
+                    + `\nПлатформа: ${game.platform}`
+                    + `\n${kindTitle}: ${game.append_date}`
+                    + `\nЖанры: ${game.genres.join(", ")}`
+                ;
+            }
+        )
+            .join("\n")
+        ;
+
+        setVisible(loaderEl, false);
+        setVisible(errorEl, false);
+        setVisible(infoEl, true);
+    }
+
+    function doGetJson(url, onload) {
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: url,
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            onload: onload,
+            onerror: process_error,
+            onabort: process_error,
+        });
+    }
+
+    function processGameForUri(game) {
+        return encodeURIComponent(game.replace('/', ' '));
+    }
+
+    doGetJson(
+        `${URL_SEARCH}/${processGameForUri(game)}`,
+        function (rs) {
             try {
                 let rsData = JSON.parse(rs.responseText);
-                console.log(rsData);
+                console.log(PREFIX_LOG + "search rsData:", rsData);
 
                 if (!rsData || rsData.length == 0) {
-                    process_error({status: 404});
+                    doGetJson(
+                        `/api/appdetails?appids=${appId}&l=english`,
+                        function (rs) {
+                            try {
+                                let rsData = JSON.parse(rs.responseText);
+                                console.log(PREFIX_LOG + "appdetails rsData:", rsData);
+
+                                let gameEn = rsData[appId].data.name;
+                                console.log(PREFIX_LOG + "appdetails rsData.data.name (en):", gameEn);
+
+                                doGetJson(
+                                    `${URL_SEARCH}/${processGameForUri(gameEn)}`,
+                                    function (rs) {
+                                        try {
+                                            let rsData = JSON.parse(rs.responseText);
+                                            console.log(PREFIX_LOG + "search (en) rsData:", rsData);
+
+                                            if (!rsData || rsData.length == 0) {
+                                                process_error({status: 404});
+                                                return;
+                                            }
+
+                                            process_game(rsData);
+
+                                        } catch (error) {
+                                            error.message = `${error.message}\n\nresponseText:\n${rs.responseText}`;
+                                            process_error(error);
+                                            return;
+                                        }
+                                    }
+                                );
+
+                            } catch (error) {
+                                error.message = `${error.message}\n\nresponseText:\n${rs.responseText}`;
+                                process_error(error);
+                                return;
+                            }
+                        }
+                    );
                     return;
                 }
 
-                document.title = `💰 ${document.title}`;
-                
-                infoEl.title = rsData
-                    .map(
-                        (game) => {
-                            let kindTitle;
-                            switch (game.kind) {
-                                case "FINISHED_GAME": {
-                                    kindTitle = "Пройдено";
-                                    break;
-                                }
-                                case "FINISHED_WATCHED": {
-                                    kindTitle = "Просмотрено";
-                                    break;
-                                }
-                                default: {
-                                    kindTitle = game.kind;
-                                }
-                            }
-                            return `#${game.id}. ${game.name}`
-                                   + `\nЦена: ${game.price} ₽`
-                                   + `\nПлатформа: ${game.platform}`
-                                   + `\n${kindTitle}: ${game.append_date}`
-                                   + `\nЖанры: ${game.genres.join(", ")}`
-                            ;
-                        }
-                    )
-                    .join("\n")
-                ;
-
-                setVisible(loaderEl, false);
-                setVisible(errorEl, false);
-                setVisible(infoEl, true);
+                process_game(rsData);
 
             } catch (error) {
                 error.message = `${error.message}\n\nresponseText:\n${rs.responseText}`;
                 process_error(error);
                 return;
             }
-        },
-        onerror: process_error,
-        onabort: process_error,
-    });
+        }
+    );
 })();
-
-
-
