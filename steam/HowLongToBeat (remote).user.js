@@ -191,6 +191,14 @@ display: inline-block;
         return encodeURIComponent(game.replace('/', ' '));
     }
 
+    function process_game(rsData) {
+        set_howlongtobeat_info(infoEl, rsData);
+
+        setVisible(loaderEl, false);
+        setVisible(errorEl, false);
+        setVisible(infoEl, true);
+    }
+
     doGetJson(
         `${URL_SEARCH}/${processGameForUri(game)}`,
         function (rs) {
@@ -221,11 +229,7 @@ display: inline-block;
                                                 return;
                                             }
 
-                                            set_howlongtobeat_info(infoEl, rsData);
-
-                                            setVisible(loaderEl, false);
-                                            setVisible(errorEl, false);
-                                            setVisible(infoEl, true);
+                                            process_game(rsData);
 
                                         } catch (error) {
                                             error.message = `${error.message}\n\nresponseText:\n${rs.responseText}`;
@@ -245,11 +249,7 @@ display: inline-block;
                     return;
                 }
 
-                set_howlongtobeat_info(infoEl, rsData);
-
-                setVisible(loaderEl, false);
-                setVisible(errorEl, false);
-                setVisible(infoEl, true);
+                process_game(rsData);
 
             } catch (error) {
                 error.message = `${error.message}\n\nresponseText:\n${rs.responseText}`;
