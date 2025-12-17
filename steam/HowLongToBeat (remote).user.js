@@ -173,27 +173,35 @@ display: inline-block;
         setVisible(infoEl, false);
     }
 
-    GM_xmlhttpRequest({
-        method: "GET",
-        url: `${URL_SEARCH}/${encodeURIComponent(game.replace('/', ' '))}`,
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-        },
-        onload: function (rs) {
+    function doGetJson(url, onload) {
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: url,
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            onload: onload,
+            onerror: process_error,
+            onabort: process_error,
+        });
+    }
+
+    function processGameForUri(game) {
+        return encodeURIComponent(game.replace('/', ' '));
+    }
+
+    doGetJson(
+        `${URL_SEARCH}/${processGameForUri(game)}`,
+        function (rs) {
             try {
                 let rsData = JSON.parse(rs.responseText);
                 console.log(PREFIX_LOG + "search rsData:", rsData);
 
                 if (!rsData) {
-                    GM_xmlhttpRequest({
-                        method: "GET",
-                        url: `/api/appdetails?appids=${appId}&l=english`,
-                        headers: {
-                            "Accept": "application/json",
-                            "Content-Type": "application/json",
-                        },
-                        onload: function (rs) {
+                    doGetJson(
+                        `/api/appdetails?appids=${appId}&l=english`,
+                        function (rs) {
                             try {
                                 let rsData = JSON.parse(rs.responseText);
                                 console.log(PREFIX_LOG + "appdetails rsData:", rsData);
@@ -201,14 +209,9 @@ display: inline-block;
                                 let gameEn = rsData[appId].data.name;
                                 console.log(PREFIX_LOG + "appdetails rsData.data.name (en):", gameEn);
 
-                                GM_xmlhttpRequest({
-                                    method: "GET",
-                                    url: `${URL_SEARCH}/${encodeURIComponent(gameEn.replace('/', ' '))}`,
-                                    headers: {
-                                        "Accept": "application/json",
-                                        "Content-Type": "application/json",
-                                    },
-                                    onload: function (rs) {
+                                doGetJson(
+                                    `${URL_SEARCH}/${processGameForUri(gameEn)}`,
+                                    function (rs) {
                                         try {
                                             let rsData = JSON.parse(rs.responseText);
                                             console.log(PREFIX_LOG + "search (en) rsData:", rsData);
@@ -229,20 +232,16 @@ display: inline-block;
                                             process_error(error);
                                             return;
                                         }
-                                    },
-                                    onerror: process_error,
-                                    onabort: process_error,
-                                });
+                                    }
+                                );
 
                             } catch (error) {
                                 error.message = `${error.message}\n\nresponseText:\n${rs.responseText}`;
                                 process_error(error);
                                 return;
                             }
-                        },
-                        onerror: process_error,
-                        onabort: process_error,
-                    });
+                        }
+                    );
                     return;
                 }
 
@@ -257,8 +256,6 @@ display: inline-block;
                 process_error(error);
                 return;
             }
-        },
-        onerror: process_error,
-        onabort: process_error,
-    });
+        }
+    );
 })();
