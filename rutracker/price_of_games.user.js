@@ -149,7 +149,7 @@ display: inline-block;
                 ;
             }
         )
-            .join("\n")
+            .join("\n\n")
         ;
 
         setVisible(loaderEl, false);
