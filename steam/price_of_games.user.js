@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. price_of_games
 // @namespace    gil9red
-// @version      2026-01-09
+// @version      2026-01-14
 // @description  Using API https://github.com/gil9red/price_of_games
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -163,12 +163,8 @@ display: inline-block;
         });
     }
 
-    function processGameForUri(game) {
-        return encodeURIComponent(game.replace('/', ' '));
-    }
-
     doGetJson(
-        `${URL_SEARCH}/${processGameForUri(game)}`,
+        `${URL_SEARCH}/${game}`,
         function (rs) {
             try {
                 let rsData = JSON.parse(rs.responseText);
@@ -186,7 +182,7 @@ display: inline-block;
                                 console.log(PREFIX_LOG + "appdetails rsData.data.name (en):", gameEn);
 
                                 doGetJson(
-                                    `${URL_SEARCH}/${processGameForUri(gameEn)}`,
+                                    `${URL_SEARCH}/${gameEn}`,
                                     function (rs) {
                                         try {
                                             let rsData = JSON.parse(rs.responseText);
@@ -227,4 +223,5 @@ display: inline-block;
         }
     );
 })();
+
 
