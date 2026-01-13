@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Rutracker. price_of_games
 // @namespace    gil9red
-// @version      2026-01-09
+// @version      2026-01-14
 // @description  try to take over the world!
 // @author       You
 // @match        https://rutracker.org/forum/viewtopic.php?t=*
@@ -170,13 +170,9 @@ display: inline-block;
             onabort: process_error,
         });
     }
-
-    function processGameForUri(game) {
-        return encodeURIComponent(game.replace('/', ' '));
-    }
-
+    
     doGetJson(
-        `${URL_SEARCH}/${processGameForUri(processedTitle)}`,
+        `${URL_SEARCH}/${processedTitle}`,
         function (rs) {
             try {
                 let rsData = JSON.parse(rs.responseText);
