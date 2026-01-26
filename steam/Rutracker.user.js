@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. Rutracker
 // @namespace    gil9red
-// @version      2025-09-11
+// @version      2025-01-26
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -29,7 +29,7 @@
 
     otherSiteInfoEl.insertAdjacentHTML(
         'afterbegin',
-        `<a href="https://rutracker.net/forum/tracker.php?nm=${game}" title="Rutracker" target="_blank">
+        `<a href="https://rutracker.net/forum/tracker.php?nm=${encodeURIComponent(game)}" title="Rutracker" target="_blank">
             <img src="https://www.google.com/s2/favicons?sz=64&domain=rutracker.org" width="24" height="24" />
         </a>`
     );
