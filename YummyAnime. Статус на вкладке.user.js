@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         YummyAnime. Статус на вкладке
 // @namespace    gil9red
-// @version      2026-02-02v1
+// @version      2026-02-02v2
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://*.yummyani.me/catalog/item/*
@@ -64,8 +64,10 @@
                     let status = rsData.response?.user?.list?.list?.href;
                     console.log(PREFIX_LOG + "status:", status);
 
-                    let status_emoji = STATUS_BY_EMOJI.get(status) ?? UNKNOWN_EMOJI;
-                    document.title = `${status_emoji} ${name} - YummyAnime`;
+                    if (status) {
+                        let status_emoji = STATUS_BY_EMOJI.get(status) ?? UNKNOWN_EMOJI;
+                        document.title = `${status_emoji} ${name} - YummyAnime`;
+                    }
 
                 } catch (error) {
                     error.message = `${error.message}\n\nresponseText:\n${rs.responseText}`;
