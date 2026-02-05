@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Кнопки копирования номера и названия задачи в буфер обмена
 // @namespace    gil9red
-// @version      2025-07-28
+// @version      2026-02-05
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/browse/*
@@ -17,7 +17,7 @@
     'use strict';
 
     function getJiraId() {
-        return $(`meta[name="ajs-issue-key"]`).attr("content") || $("[id=key-val][data-issue-key]").attr("data-issue-key");
+        return $("[id=key-val][data-issue-key]").attr("data-issue-key");
     }
 
     function getJiraTitle() {
@@ -167,3 +167,4 @@
         );
     });
 })();
+
