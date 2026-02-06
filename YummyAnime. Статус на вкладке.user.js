@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         YummyAnime. Статус на вкладке
 // @namespace    gil9red
-// @version      2026-02-02v2
+// @version      2026-02-07
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://*.yummyani.me/catalog/item/*
@@ -51,6 +51,8 @@
     }
 
     function process() {
+        document.title = document.title.replace(ERROR_EMOJI, "").trim();
+        
         doGetJson(
             `/api/anime/${SLUG}`,
             function (rs) {
