@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         YummyAnime. Статус на вкладке
 // @namespace    gil9red
-// @version      2026-02-07
+// @version      2026-02-09
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://*.yummyani.me/catalog/item/*
@@ -25,9 +25,6 @@
         ["lost", "❌"], // Брошено
     ]);
 
-    const SLUG = location.pathname.split("/").pop();
-    console.log(PREFIX_LOG + "name:", SLUG);
-
     function processError(rs) {
         console.log(PREFIX_LOG + "rs.message:", rs.message);
 
@@ -37,6 +34,8 @@
     }
 
     function doGetJson(url, onload) {
+        console.log(PREFIX_LOG + "url:", url);
+
         GM_xmlhttpRequest({
             method: "GET",
             url: url,
@@ -51,10 +50,11 @@
     }
 
     function process() {
+        const slug = location.pathname.split("/").pop();
         document.title = document.title.replace(ERROR_EMOJI, "").trim();
         
         doGetJson(
-            `/api/anime/${SLUG}`,
+            `/api/anime/${slug}`,
             function (rs) {
                 try {
                     let rsData = JSON.parse(rs.responseText);
