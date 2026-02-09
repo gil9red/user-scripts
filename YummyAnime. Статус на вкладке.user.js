@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         YummyAnime. Статус на вкладке
 // @namespace    gil9red
-// @version      2026-02-09
+// @version      2026-02-09v2
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://*.yummyani.me/catalog/item/*
@@ -33,7 +33,7 @@
         }
     }
 
-    function doGetJson(url, onload) {
+    const fetchAsync = (url) => new Promise((resolve, reject) => {
         console.log(PREFIX_LOG + "url:", url);
 
         GM_xmlhttpRequest({
@@ -43,45 +43,46 @@
                 "Accept": "application/json",
                 "Content-Type": "application/json",
             },
-            onload: onload,
-            onerror: processError,
-            onabort: processError,
+            onload: resolve, // Весь объект ответа пойдет в resolve
+            onerror: reject, // Ошибка пойдет в reject
+            onabort: () => reject(new Error("Request aborted")), // Обрабатываем отмену
+            ontimeout: () => reject(new Error("Request timeout")) // Желательно и таймаут
         });
-    }
+    });
 
-    function process() {
-        const slug = location.pathname.split("/").pop();
-        document.title = document.title.replace(ERROR_EMOJI, "").trim();
-        
-        doGetJson(
-            `/api/anime/${slug}`,
-            function (rs) {
-                try {
-                    let rsData = JSON.parse(rs.responseText);
-                    console.log(PREFIX_LOG + "rsData:", rsData);
+    async function mainLoop() {
+        while (true) {
+            let responseText = null;
+            try {
+                const slug = location.pathname.split("/").pop();
+                document.title = document.title.replace(ERROR_EMOJI, "").trim(); // Удаление символа ошибки
 
-                    let name = rsData.response.title;
-                    console.log(PREFIX_LOG + "name:", name);
+                const rs = await fetchAsync(`/api/anime/${slug}`);
+                responseText = rs.responseText;
 
-                    let status = rsData.response?.user?.list?.list?.href;
-                    console.log(PREFIX_LOG + "status:", status);
+                const rsData = JSON.parse(responseText);
+                console.log(PREFIX_LOG + "rsData:", rsData);
 
-                    if (status) {
-                        let status_emoji = STATUS_BY_EMOJI.get(status) ?? UNKNOWN_EMOJI;
-                        document.title = `${status_emoji} ${name} - YummyAnime`;
-                    }
+                const name = rsData.response.title;
+                console.log(PREFIX_LOG + "name:", name);
 
-                } catch (error) {
-                    error.message = `${error.message}\n\nresponseText:\n${rs.responseText}`;
-                    processError(error);
-                    return;
+                const status = rsData.response?.user?.list?.list?.href;
+                console.log(PREFIX_LOG + "status:", status);
+
+                if (status) {
+                    let status_emoji = STATUS_BY_EMOJI.get(status) ?? UNKNOWN_EMOJI;
+                    document.title = `${status_emoji} ${name} - YummyAnime`;
                 }
+
+            } catch (error) {
+                error.message = `${error.message}\n\nresponseText:\n${responseText}`;
+                processError(error);
             }
-        );
+
+            // Ждем перед следующей итерацией в любом случае
+            await new Promise(r => setTimeout(r, 5000));
+        }
     }
 
-    process();
-
-    // Сайт обновляет текст на вкладке
-    setInterval(process, 5000);
+    mainLoop();
 })();
