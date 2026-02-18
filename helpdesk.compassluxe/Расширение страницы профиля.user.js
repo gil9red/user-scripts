@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Расширение страницы профиля
 // @namespace    gil9red
-// @version      0.16
+// @version      2026-02-18
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/secure/ViewProfile.jspa*
@@ -9,8 +9,8 @@
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
 // @homepage     https://github.com/gil9red/user-scripts
-// @updateURL    https://github.com/gil9red/user-scripts/raw/main/helpdesk.compassluxe/Расширение страницы профиля.user.js
-// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/helpdesk.compassluxe/Расширение страницы профиля.user.js
+// @updateURL    https://github.com/gil9red/user-scripts/raw/main/helpdesk.compassluxe/Расширение%20страницы%20профиля.user.js
+// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/helpdesk.compassluxe/Расширение%20страницы%20профиля.user.js
 // ==/UserScript==
 
 
@@ -234,6 +234,9 @@ animation: spin 2s linear infinite;
                   let value = row[key];
                   if (key == "img") {
                       value = `<img src="${get_actual_img(row, data)}"/>`;
+                  }
+                  if (value == null) {
+                      value = "-";
                   }
                   return `<td>${value}</td>`;
               }
