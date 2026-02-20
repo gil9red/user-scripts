@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. Search. price_of_games
 // @namespace    gil9red
-// @version      2026-02-21
+// @version      2026-02-21v2
 // @description  Using API https://github.com/gil9red/price_of_games
 // @author       gil9red
 // @match        https://store.steampowered.com/search*
@@ -64,7 +64,7 @@ display: inline-block;
     }
 
     function process() {
-        for (let searchResultRowEl of document.querySelectorAll(".search_result_row:has(.title):has(.discount_prices)")) {
+        for (let searchResultRowEl of document.querySelectorAll(".search_result_row:has(.title):has(.search_price_discount_combined)")) {
             if (searchResultRowEl.querySelector(`.${CLASS_PRICE_OF_GAMES}`)) {
                 continue;
             }
@@ -72,7 +72,7 @@ display: inline-block;
             const gameName = searchResultRowEl.querySelector(".title").textContent;
             console.log(PREFIX_LOG + "process:", gameName);
 
-            searchResultRowEl.querySelector(".discount_prices").insertAdjacentHTML(
+            searchResultRowEl.querySelector(".search_price_discount_combined").insertAdjacentHTML(
                 'beforeend',
                 `
                 <span class="${CLASS_PRICE_OF_GAMES}" style="font-size: large;">
