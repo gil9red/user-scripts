@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Rutracker. price_of_games
 // @namespace    gil9red
-// @version      2026-01-14
+// @version      2026-01-22
 // @description  try to take over the world!
 // @author       You
 // @match        https://rutracker.org/forum/viewtopic.php?t=*
+// @match        https://rutracker.net/forum/viewtopic.php?t=*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=rutracker.org
 // @grant        GM_xmlhttpRequest
 // @grant        GM_addStyle
