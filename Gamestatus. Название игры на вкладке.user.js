@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gamestatus. Название игры на вкладке
 // @namespace    gil9red
-// @version      2025-08-13
+// @version      2026-03-09
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://gamestatus.info/*
@@ -17,18 +17,7 @@
 
     setInterval(
         function() {
-            let title;
-            try {
-                title = document.querySelector(".title-navigator.title-navigator-min > h1").childNodes[1].textContent;
-            } catch {
-                let titleEl = document.querySelector("meta[property='og:site_name'][content]");
-                title = titleEl.getAttribute("content")
-                    .replace("Gamestatus - Crack ", "")
-                    .replace("Gamestatus - Взлом ", "")
-                    .trim()
-                ;
-            }
-
+            let title = document.querySelector(".game-info__title").textContent.trim();
             document.title = `${title} - Gamestatus`;
         },
         1000
