@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         Steam. price_of_games
 // @namespace    gil9red
-// @version      2026-01-14
+// @version      2026-06-06
 // @description  Using API https://github.com/gil9red/price_of_games
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=steampowered.com
-// @homepage     https://github.com/gil9red/user-scripts
+// @homepage     https://github.com/gil9red/user-scripts/blob/main/steam/price_of_games.user.js
 // @updateURL    https://github.com/gil9red/user-scripts/raw/main/steam/price_of_games.user.js
 // @downloadURL  https://github.com/gil9red/user-scripts/raw/main/steam/price_of_games.user.js
 // @grant        GM_xmlhttpRequest
@@ -114,7 +114,7 @@ display: inline-block;
     }
 
     function process_game(rsData) {
-        document.title = `💰 ${document.title}`;
+        document.title = `💰${document.title}`;
 
         infoEl.title = rsData
             .map(
@@ -223,5 +223,3 @@ display: inline-block;
         }
     );
 })();
-
-
