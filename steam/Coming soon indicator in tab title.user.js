@@ -15,8 +15,7 @@
 (function() {
     'use strict';
 
-    const comingSoon = document.querySelector(".game_area_comingsoon");
-    if (comingSoon) {
+    if (document.querySelector(".game_area_comingsoon")) {
         document.title = `⏳${document.title}`;
     }
 })();
