@@ -15,8 +15,7 @@
 (function() {
     'use strict';
 
-    const earlyAccessHeader = document.getElementById("earlyAccessHeader");
-    if (earlyAccessHeader) {
+    if (document.getElementById("earlyAccessHeader")) {
         document.title = `🐣${document.title}`;
     }
 })();
