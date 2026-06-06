@@ -1,0 +1,21 @@
+// ==UserScript==
+// @name         Steam. Unsupported language indicator in tab title
+// @namespace    gil9red
+// @version      2026-06-06
+// @description  try to take over the world!
+// @author       gil9red
+// @match        https://store.steampowered.com/app/*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=steampowered.com
+// @homepage     https://github.com/gil9red/user-scripts/blob/main/steam/Unsupported%20language%20indicator%20in%20tab%20title.user.js
+// @updateURL    https://github.com/gil9red/user-scripts/raw/main/steam/Unsupported%20language%20indicator%20in%20tab%20title.user.js
+// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/steam/Unsupported%20language%20indicator%20in%20tab%20title.user.js
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    if (document.querySelector("#languageTable .unsupported")) {
+        document.title = `👽${document.title}`;
+    }
+})();
