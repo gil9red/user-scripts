@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Jira. Добавление кнопок копирования username у Assignee и Reporter
-// @version      2026-05-06
+// @version      2026-06-24
 // @namespace    gil9red
 // @author       gil9red
 // @description  try to take over the world!
@@ -16,18 +16,12 @@
 (function() {
     'use strict';
 
-    let $assignee = $("#assignee-val .user-hover[rel]");
-    let $reporter = $("#reporter-val .user-hover[rel]");
-    if ($assignee.length == 0 || $reporter.length == 0) {
-        return;
-    }
-
-    const className = "copying-username-to-clipboard";
+    const LINK_CLASS = 'copying-username-to-clipboard';
 
     function create_button() {
         return `
         <span
-            class="${className} aui-button aui-style"
+            class="${LINK_CLASS} aui-button aui-style"
             title="Копирование username в буфер обмена"
             style="padding: 4px; font-size: 10px; margin-left: 5px;"
         >
@@ -36,24 +30,49 @@
         `;
     }
 
-    $assignee.append(create_button());
-    $reporter.append(create_button());
+    function processUserField(selector) {
+        const $el = document.querySelector(selector);
+        if (!$el) return;
 
-    $(`.${className}`).click(function(event) {
-        let $this = $(this);
-        let text = $this.parents("[rel]").attr("rel");
-        let $info = $this.find(".info");
+        if ($el.querySelector(`.${LINK_CLASS}`)) return;
 
-        $info.text(" - копирование...");
-        GM_setClipboard(
-            text,
-            "text",
-            () => {
-                $info.text(` - 👌!`);
-                setTimeout(() => $info.text(""), 1500);
-            }
-        );
+        $el.insertAdjacentHTML('beforeend', create_button());
+    }
 
-        event.stopPropagation(); // Чтобы клик не попал в поле редактора
+    function checkAndApply() {
+        processUserField("#assignee-val .user-hover[rel]");
+        processUserField("#reporter-val .user-hover[rel]");
+    }
+
+    document.addEventListener('click', function(event) {
+        const button = event.target.closest(`.${LINK_CLASS}`);
+        if (!button) return;
+
+        event.stopPropagation();
+        event.preventDefault();
+
+        const parentWithRel = button.closest('[rel]');
+        if (!parentWithRel) return;
+
+        const text = parentWithRel.getAttribute('rel');
+        const info = button.querySelector('.info');
+
+        info.textContent = " - копирование...";
+
+        GM_setClipboard(text, "text", () => {
+            info.textContent = " - 👌!";
+            setTimeout(() => {
+                info.textContent = "";
+            }, 1500);
+        });
+    }, true);
+
+    const observer = new MutationObserver(() => {
+        checkAndApply();
+    });
+
+    observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true
     });
 })();
