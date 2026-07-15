@@ -15,6 +15,7 @@
 
 (function() {
     'use strict';
+    
     const className = "copying-file-name-to-clipboard";
     const SELECTOR_TITLE = ".attachment-title";
     const SELECTOR_BUTTON = `.${className}`;
@@ -60,14 +61,13 @@
         });
     });
 
+    const target = document.body || document.documentElement;
+    
     const observer = new MutationObserver(mutations => {
         for (const mutation of mutations) {
             mutation.addedNodes.forEach(processTitles);
         }
     });
-
-    const target = document.body || document.documentElement;
-
     observer.observe(target, {
         childList: true,
         subtree: true
