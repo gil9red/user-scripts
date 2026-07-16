@@ -1,15 +1,15 @@
 // ==UserScript==
 // @name         Google Keep. Ignore Ctrl + S
 // @namespace    gil9red
-// @version      2025-05-22
+// @version      2026-07-16
 // @description  try to take over the world!
 // @author       gil9red
-// @match        https://keep.google.com/
+// @match        https://keep.google.com/*
 // @icon         https://ssl.gstatic.com/keep/keep_2023q4.ico
 // @grant        none
-// @homepage     https://github.com/gil9red/user-scripts
-// @updateURL    https://github.com/gil9red/user-scripts/raw/main/google/Google Keep. Ignore Ctrl + S.user.js
-// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/google/Google Keep. Ignore Ctrl + S.user.js
+// @homepage     https://github.com/gil9red/user-scripts/blob/main/google/Google%20Keep.%20Ignore%20Ctrl%20%2B%20S.user.js
+// @updateURL    https://github.com/gil9red/user-scripts/raw/main/google/Google%20Keep.%20Ignore%20Ctrl%20%2B%20S.user.js
+// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/google/Google%20Keep.%20Ignore%20Ctrl%20%2B%20S.user.js
 // ==/UserScript==
 
 (function() {
