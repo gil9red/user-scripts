@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Keep. Заголовок вкладки из заголовка заметок
 // @namespace    gil9red
-// @version      2025-08-27
+// @version      2026-07-28
 // @description  try to take over the world!
 // @author       You
 // @match        https://keep.google.com/*
@@ -35,7 +35,7 @@
                 let scripts = document.querySelectorAll("script");
                 for (let i = 0; i < scripts.length; i++) {
                     let scriptText = scripts[i].innerText;
-                    let m = scriptText.match(/loadChunk\((JSON\.parse\(['"].+?['"]\))/);
+                    let m = scriptText.match(/(?:loadChunk|updateUserInfoFromInitialSyncRead)\((JSON\.parse\(['"].+?['"]\))/);
                     if (m) {
                         // Символы экранированы в ASCII
                         // NOTE: Вместо eval
