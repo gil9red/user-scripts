@@ -6,9 +6,9 @@
 // @author       You
 // @match        https://keep.google.com/*
 // @icon         https://ssl.gstatic.com/keep/keep_2023q4.ico
-// @homepage     https://github.com/gil9red/user-scripts
-// @updateURL    https://github.com/gil9red/user-scripts/raw/main/google/Google Keep. Заголовок вкладки из заголовка заметок.user.js
-// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/google/Google Keep. Заголовок вкладки из заголовка заметок.user.js
+// @homepage     https://github.com/gil9red/user-scripts/blob/main/google/Google%20Keep.%20Заголовок%20вкладки%20из%20заголовка%20заметок.user.js
+// @updateURL    https://github.com/gil9red/user-scripts/raw/main/google/Google%20Keep.%20Заголовок%20вкладки%20из%20заголовка%20заметок.user.js
+// @downloadURL  https://github.com/gil9red/user-scripts/raw/main/google/Google%20Keep.%20Заголовок%20вкладки%20из%20заголовка%20заметок.user.js
 // @grant        GM_addElement
 // ==/UserScript==
 
