@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Jira. Кнопка копирования компонентов в буфер обмена
 // @namespace    gil9red
-// @version      2026-07-15
+// @version      2026-08-31
 // @description  try to take over the world!
 // @author       gil9red
 // @match        https://helpdesk.compassluxe.com/browse/*
@@ -45,11 +45,8 @@
         event.stopPropagation();
         event.preventDefault();
 
-        const text = document
-            .querySelector(components_field_selector)
-            .textContent
-            .split(",")
-            .map(obj => obj.trim())
+        const text = [...document.querySelectorAll("#components-field > a")]
+            .map(obj => obj.textContent.trim())
             .join(", ");
         const info = button.querySelector(".info");
 
