@@ -1,24 +1,30 @@
 // ==UserScript==
 // @name         Rutracker. price_of_games
+// @version      2026-09-20
 // @namespace    gil9red
-// @version      2026-01-22
+// @author       gil9red
 // @description  try to take over the world!
-// @author       You
 // @match        https://rutracker.org/forum/viewtopic.php?t=*
 // @match        https://rutracker.net/forum/viewtopic.php?t=*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=rutracker.org
-// @grant        GM_xmlhttpRequest
-// @grant        GM_addStyle
-// @homepage     https://github.com/gil9red/user-scripts
+// @homepage     https://github.com/gil9red/user-scripts/blob/main/rutracker/price_of_games.user.js
 // @updateURL    https://github.com/gil9red/user-scripts/raw/main/rutracker/price_of_games.user.js
 // @downloadURL  https://github.com/gil9red/user-scripts/raw/main/rutracker/price_of_games.user.js
+// @grant        GM_xmlhttpRequest
+// @grant        GM_addStyle
 // ==/UserScript==
 
 (function() {
     'use strict';
 
+    const currentUrl = window.location.href;
+    if (currentUrl.includes("__cf_chl_rt_tk")) {
+        console.log("В URL присутствует токен cloudflare, страница не загружена, пропуск");
+        return;
+    }
+
     // NOTE: Аналог https://github.com/gil9red/user-scripts/raw/main/steam/price_of_games.user.js
-  
+
     const PREFIX_LOG = "[price_of_games] ";
 
     // https://github.com/gil9red/price_of_games/blob/ea72f97245918d41d148d39b2204faaf63641ada/app_web/main.py#L434
@@ -171,7 +177,7 @@ display: inline-block;
             onabort: process_error,
         });
     }
-    
+
     doGetJson(
         `${URL_SEARCH}/${processedTitle}`,
         function (rs) {
