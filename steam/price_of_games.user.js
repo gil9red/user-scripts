@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam. price_of_games
 // @namespace    gil9red
-// @version      2026-06-06
+// @version      2026-09-27
 // @description  Using API https://github.com/gil9red/price_of_games
 // @author       gil9red
 // @match        https://store.steampowered.com/app/*
@@ -175,10 +175,14 @@ display: inline-block;
                         `/api/appdetails?appids=${appId}&l=english`,
                         function (rs) {
                             try {
+                                // {Object<string, Object<string, *> >}
                                 let rsData = JSON.parse(rs.responseText);
                                 console.log(PREFIX_LOG + "appdetails rsData:", rsData);
 
-                                let gameEn = rsData[appId].data.name;
+                                const dataGame = Object.values(rsData).find(
+                                    (innerObj) => innerObj.data.steam_appid == appId
+                                );
+                                let gameEn = dataGame.data.name;
                                 console.log(PREFIX_LOG + "appdetails rsData.data.name (en):", gameEn);
 
                                 doGetJson(
