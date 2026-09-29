@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Keep. Заголовок вкладки из заголовка заметок
 // @namespace    gil9red
-// @version      2026-07-28
+// @version      2026-09-29
 // @description  try to take over the world!
 // @author       You
 // @match        https://keep.google.com/*
@@ -67,8 +67,10 @@
             // Список CSS-селекторов для поиска названия заметки
             const selectors = [
                 'div:has(> div[role="toolbar"] > div[data-tooltip-text]) > div > div[contenteditable="true"][role="textbox"][dir="ltr"]',
-                '[data-tooltip-text*=" заметку"] ~ div:nth-child(4) > div[contenteditable="true"][role="textbox"][dir="ltr"]'
+                '[data-tooltip-text*=" заметку"] ~ div:nth-child(4) > div[contenteditable="true"][role="textbox"][dir="ltr"]',
             ];
+
+            // Перебираем селекторы по очереди
             for (const selector of selectors) {
                 const itemEl = document.querySelector(selector);
 
