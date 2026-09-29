@@ -64,13 +64,21 @@
                 }
             }
 
-            // Поиск от кнопки в заметке и к определенному элементу по порядку на том же уровне вложенности
-            const cssSelector = '[data-tooltip-text*=" заметку"] ~ div:nth-child(4) > div[contenteditable="true"][role="textbox"][dir="ltr"]';
+            // Список CSS-селекторов для поиска названия заметки
+            const selectors = [
+                'div:has(> div[role="toolbar"] > div[data-tooltip-text]) > div > div[contenteditable="true"][role="textbox"][dir="ltr"]',
+                '[data-tooltip-text*=" заметку"] ~ div:nth-child(4) > div[contenteditable="true"][role="textbox"][dir="ltr"]'
+            ];
 
-            itemEl = document.querySelector(cssSelector);
-            if (itemEl && itemEl.innerText) {
-                document.title = itemEl.innerText;
-                return;
+            // Перебираем селекторы по очереди
+            for (const selector of selectors) {
+                const itemEl = document.querySelector(selector);
+
+                // Если элемент найден и в нем есть текст — обновляем заголовок и выходим
+                if (itemEl && itemEl.innerText?.trim()) {
+                    document.title = itemEl.innerText;
+                    return;
+                }
             }
         }
 
