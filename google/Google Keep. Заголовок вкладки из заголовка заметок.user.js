@@ -69,8 +69,6 @@
                 'div:has(> div[role="toolbar"] > div[data-tooltip-text]) > div > div[contenteditable="true"][role="textbox"][dir="ltr"]',
                 '[data-tooltip-text*=" заметку"] ~ div:nth-child(4) > div[contenteditable="true"][role="textbox"][dir="ltr"]',
             ];
-
-            // Перебираем селекторы по очереди
             for (const selector of selectors) {
                 const itemEl = document.querySelector(selector);
 
