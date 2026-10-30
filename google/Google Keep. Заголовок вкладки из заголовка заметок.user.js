@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Keep. Заголовок вкладки из заголовка заметок
 // @namespace    gil9red
-// @version      2026-09-29
+// @version      2026-10-30
 // @description  try to take over the world!
 // @author       You
 // @match        https://keep.google.com/*
@@ -23,21 +23,20 @@
     function process() {
         // Например: "#LIST/" и "#NOTE/"
         const serverId = location.href.split(/#\w+\//)[1]; // Так понимаем, что это выбранная заметка
+        console.log("serverId:", serverId);
         if (serverId) {
-            let itemEl = document.querySelector('#keep-iape');
-            if (itemEl && itemEl.innerText != "Новая заметка" && itemEl.innerText != "Новый список") {
-                document.title = itemEl.innerText;
-                return;
-            }
-
             if (document._gil9red_chunkJson === null) {
                 // Работает для закрепленных
                 let scripts = document.querySelectorAll("script");
+                console.log("scripts.length:", scripts.length);
+
                 for (let i = 0; i < scripts.length; i++) {
                     let scriptText = scripts[i].innerText;
                     // \x5b - символ [
                     let m = scriptText.match(/(?:loadChunk|updateUserInfoFromInitialSyncRead)\(\s*(JSON\.parse\(['"]\\x5b.+?['"]\)\s*)/);
                     if (m) {
+                        console.log("Match load function:", m[1]);
+
                         // Символы экранированы в ASCII
                         // NOTE: Вместо eval
                         GM_addElement(
@@ -50,12 +49,14 @@
                     }
                 }
 
+                console.log("document._gil9red_chunkJson:", document._gil9red_chunkJson);
+
                 if (document._gil9red_chunkJson == null) {
                     alert("Не удалось найти JSON из loadChunk!");
                     clearInterval(timerId);
                     return;
                 }
-
+            } else {
                 for (let data of document._gil9red_chunkJson) {
                     if (data.serverId == serverId) {
                         document.title = data.title;
@@ -67,10 +68,12 @@
             // Список CSS-селекторов для поиска названия заметки
             const selectors = [
                 'div:has(> div[role="toolbar"] > div[data-tooltip-text]) > div > div[contenteditable="true"][role="textbox"][dir="ltr"]',
+                'div > div[contenteditable="true"][role="textbox"][dir="ltr"]',
                 '[data-tooltip-text*=" заметку"] ~ div:nth-child(4) > div[contenteditable="true"][role="textbox"][dir="ltr"]',
             ];
             for (const selector of selectors) {
                 const itemEl = document.querySelector(selector);
+                console.log("selector:", selector, itemEl)
 
                 // Если элемент найден и в нем есть текст — обновляем заголовок и выходим
                 if (itemEl && itemEl.innerText?.trim()) {
